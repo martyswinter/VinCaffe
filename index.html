@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VinCaffe - Kavárna</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <!-- STICKY MENU -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">VinCaffe</div>
+            <ul class="nav-links">
+                <li><button class="btn btn-tonal">Domů</button></li>
+                <li><button class="btn btn-outlined">Menu</button></li>
+                <li><button class="btn btn-outlined">O nás</button></li>
+                <li><button class="btn btn-filled">Objednat</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HERO SEKCE - 2 COLUMNS -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-text">
+                <h1>Vítejte v Vin Caffe</h1>
+                <p>Nejlepší káva a víno v okolí</p>
+                <button class="btn btn-filled">Objednat si stůl</button>
+            </div>
+            <div class="hero-image">
+                <img src="assets/images/hero-image.jpg" alt="VinCaffe">
+            </div>
+        </div>
+    </section>
+
+    <!-- TÝDENNÍ MENU -->
+    <section id="menu" class="menu-section">
+        <img id="menu-image" src="" alt="Týdenní menu">
+    </section>
+
+    <!-- O TÝMU - 3 KARTY (Obrázek 1/3, Text 2/3) -->
+    <section id="team" class="team-section">
+        <h2>O týmu</h2>
+        <div class="team-grid">
+            <div class="team-card">
+                <img src="assets/images/team-1.jpg" alt="Člen týmu 1" class="team-card-image">
+                <div class="team-card-text">
+                    <h3>Jméno 1</h3>
+                    <p>Popis role, zkušenosti a zajímavostí o tomto členu týmu.</p>
+                </div>
+            </div>
+            <div class="team-card">
+                <img src="assets/images/team-2.jpg" alt="Člen týmu 2" class="team-card-image">
+                <div class="team-card-text">
+                    <h3>Jméno 2</h3>
+                    <p>Popis role, zkušenosti a zajímavostí o tomto členu týmu.</p>
+                </div>
+            </div>
+            <div class="team-card">
+                <img src="assets/images/team-3.jpg" alt="Člen týmu 3" class="team-card-image">
+                <div class="team-card-text">
+                    <h3>Jméno 3</h3>
+                    <p>Popis role, zkušenosti a zajímavostí o tomto členu týmu.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ZAHRADA - 2 COLUMNS (text vlevo, obrázek vpravo) -->
+    <section id="garden" class="garden-section">
+        <div class="garden-container">
+            <div class="garden-text">
+                <h2>Zahrada</h2>
+                <p>Popis zahrady a atmosféry. Sem patří detailní text o tom, jak vypadá venkovní prostor, co tam je, jak
+                    se tam cítí...</p>
+            </div>
+            <div class="garden-image">
+                <img src="assets/images/garden.jpg" alt="Zahrada">
+            </div>
+        </div>
+    </section>
+
+    <!-- VNITŘNÍ PROSTORY - 2 COLUMNS (obrázek vlevo, text vpravo) -->
+    <section id="interior" class="interior-section">
+        <div class="interior-container">
+            <div class="interior-image">
+                <img src="assets/images/interior.jpg" alt="Vnitřní prostory">
+            </div>
+            <div class="interior-text">
+                <h2>Vnitřní prostory</h2>
+                <p>Popis interiéru kavárny. Sem patří text o design, atmosféře, jak se tam cítí hosté...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+            <!-- 4 COLUMNS -->
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>Otevírací doba</h3>
+                    <img src="assets/icons/coffee-bean.svg" alt="" class="footer-icon">
+                    <p>Pondělí - Sobota, 9:00 - 23:00</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Adresa</h3>
+                    <img src="assets/icons/coffee-bean.svg" alt="" class="footer-icon">
+                    <p>Blahníkova 3 Praha 3,<br>130 00<br>Tramvaje: 5, 9, 15, 26<br>Zastávka: Hussinecka</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Rezervace</h3>
+                    <img src="assets/icons/coffee-bean.svg" alt="" class="footer-icon">
+                    <p>+420775769951<br>info@vincaffe.cz</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Sledujte nás</h3>
+                    <img src="assets/icons/coffee-bean.svg" alt="" class="footer-icon">
+                    <div class="social-links">
+                        <a href="#">Instagram</a>
+                        <a href="#">Facebook</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 1 COLUMN - COPYRIGHT -->
+        <div class="footer-bottom">
+            <p>Created by <a href="https://winter-ux.eu">winter-ux.eu</a> | © 2024 VinCaffe</p>
+        </div>
+    </footer>
+
+    <!-- DIALOG PRO OBJEDNÁVKU -->
+    <dialog id="booking-dialog" class="dialog">
+        <div class="dialog-content">
+            <button class="close-btn">&times;</button>
+            <h2>Objednat si stůl</h2>
+            <form id="booking-form">
+                <input type="text" placeholder="Jméno" required>
+                <input type="email" placeholder="Email" required>
+                <input type="date" required>
+                <input type="number" placeholder="Počet osob" min="1" required>
+                <button type="submit" class="btn btn-filled">Odeslat objednávku</button>
+            </form>
+        </div>
+    </dialog>
+
+    <script src="js/main.js"></script>
+    <script src="js/booking.js"></script>
+</body>
+
+</html>
