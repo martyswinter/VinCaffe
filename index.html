@@ -12,13 +12,19 @@
     <!-- STICKY MENU -->
     <nav class="navbar">
         <div class="nav-container">
-            <div class="logo">VinCaffe</div>
+            <div class="logo">
+                <img src="assets/images/logo_vincaffe.png" alt="VinCaffe Logo">
+            </div>
             <ul class="nav-links">
-                <li><button class="btn btn-tonal">Domů</button></li>
-                <li><button class="btn btn-outlined">Menu</button></li>
-                <li><button class="btn btn-outlined">O nás</button></li>
-                <li><button class="btn btn-filled">Objednat</button></li>
+                <li><button class="btn btn-tonal">Menu</button></li>
+                <li><button class="btn btn-outlined">Kontakt</button></li>
+                <li><button class="btn btn-filled">Rezervace</button></li>
             </ul>
+            <button class="burger-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </nav>
 
@@ -26,19 +32,119 @@
     <section id="home" class="hero">
         <div class="hero-container">
             <div class="hero-text">
-                <h1>Vítejte v Vin Caffe</h1>
-                <p>Nejlepší káva a víno v okolí</p>
-                <button class="btn btn-filled">Objednat si stůl</button>
+                <h1>Vítejte v VinCaffé</h1>
+                <p>“Náš život je káva, víno a Ty, každý host, který k nám zavítá.”</p>
             </div>
+
             <div class="hero-image">
-                <img src="assets/images/hero-image.jpg" alt="VinCaffe">
+                <img src="assets/images/hero-image.png" alt="VinCaffe">
             </div>
         </div>
     </section>
 
     <!-- TÝDENNÍ MENU -->
     <section id="menu" class="menu-section">
-        <img id="menu-image" src="" alt="Týdenní menu">
+        <div class="menu-container">
+            <h2>Týdenní menu</h2>
+            <p class="menu-subtitle">od 12:00 do vyprodání</p>
+
+            <div class="menu-grid">
+                <!-- Pondělí -->
+                <div class="menu-day">
+                    <h3 id="day-po">Pondělí</h3>
+                    <div class="menu-items">
+                        <div class="menu-item">
+                            <img src="assets/icons/soup-icon.svg" alt="Polévka" class="menu-icon">
+                            <p id="po-soup">Polévka</p>
+                        </div>
+                        <div class="menu-item">
+                            <img src="assets/icons/vegetarian-icon.svg" alt="Jídlo" class="menu-icon">
+                            <p id="po-main1">Hlavní jídlo 1</p>
+                        </div>
+                        <div class="menu-item">
+                            <img src="assets/icons/meat-icon.svg" alt="Jídlo" class="menu-icon">
+                            <p id="po-main2">Hlavní jídlo 2</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Úterý -->
+                <div class="menu-day">
+                    <h3 id="day-ut">Úterý</h3>
+                    <div class="menu-items">
+                        <div class="menu-item">
+                            <img src="assets/icons/soup-icon.svg" alt="Polévka" class="menu-icon">
+                            <p id="ut-soup">Polévka</p>
+                        </div>
+                        <div class="menu-item">
+                            <img src="assets/icons/vegetarian-icon.svg" alt="Jídlo" class="menu-icon">
+                            <p id="ut-main1">Hlavní jídlo 1</p>
+                        </div>
+                        <div class="menu-item">
+                            <img src="assets/icons/meat-icon.svg" alt="Jídlo" class="menu-icon">
+                            <p id="ut-main2">Hlavní jídlo 2</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Středa -->
+                <div class="menu-day">
+                    <h3 id="day-st">Středa</h3>
+                    <div class="menu-items">
+                        <div class="menu-item">
+                            <img src="assets/icons/soup-icon.svg" alt="Polévka" class="menu-icon">
+                            <p id="st-soup">Polévka</p>
+                        </div>
+                        <div class="menu-item">
+                            <img src="assets/icons/vegetarian-icon.svg" alt="Jídlo" class="menu-icon">
+                            <p id="st-main1">Hlavní jídlo 1</p>
+                        </div>
+                        <div class="menu-item">
+                            <img src="assets/icons/meat-icon.svg" alt="Jídlo" class="menu-icon">
+                            <p id="st-main2">Hlavní jídlo 2</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Čtvrtek -->
+                <div class="menu-day">
+                    <h3 id="day-ct">Čtvrtek</h3>
+                    <div class="menu-items">
+                        <div class="menu-item">
+                            <img src="assets/icons/soup-icon.svg" alt="Polévka" class="menu-icon">
+                            <p id="ct-soup">Polévka</p>
+                        </div>
+                        <div class="menu-item">
+                            <img src="assets/icons/vegetarian-icon.svg" alt="Jídlo" class="menu-icon">
+                            <p id="ct-main1">Hlavní jídlo 1</p>
+                        </div>
+                        <div class="menu-item">
+                            <img src="assets/icons/meat-icon.svg" alt="Jídlo" class="menu-icon">
+                            <p id="ct-main2">Hlavní jídlo 2</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pátek -->
+                <div class="menu-day">
+                    <h3 id="day-pa">Pátek</h3>
+                    <div class="menu-items">
+                        <div class="menu-item">
+                            <img src="assets/icons/soup-icon.svg" alt="Polévka" class="menu-icon">
+                            <p id="pa-soup">Polévka</p>
+                        </div>
+                        <div class="menu-item">
+                            <img src="assets/icons/vegetarian-icon.svg" alt="Jídlo" class="menu-icon">
+                            <p id="pa-main1">Hlavní jídlo 1</p>
+                        </div>
+                        <div class="menu-item">
+                            <img src="assets/icons/meat-icon.svg" alt="Jídlo" class="menu-icon">
+                            <p id="pa-main2">Hlavní jídlo 2</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
     <!-- O TÝMU - 3 KARTY (Obrázek 1/3, Text 2/3) -->
