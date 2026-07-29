@@ -1,10 +1,5 @@
-// Google Sheets ID a rozsah
-const SHEET_ID = '1oC8J34A4j3nUnX7MUZXyRYEUhTZeS-H7vHcte0B_i_Y';
-const SHEET_NAME = 'Menu';
-const SHEET_RANGE = 'A:E'; // Všechny sloupce od A do E
-
 // URL pro načtení dat z Google Sheets jako CSV
-const CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/query?tqx=out:csv&range=${SHEET_NAME}!${SHEET_RANGE}`;
+const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTkGElCHPPqJQFdspzR4c6oNZUYUxIQtgMdRucloCUfnqZ8wFI2Xk4MAWq4gPcotrlB9WczAl9wM1rf/pub?output=csv';
 
 // Funkce na načtení a zpracování dat
 async function loadMenuFromSheets() {
@@ -104,15 +99,6 @@ function scheduleMenuLoad() {
         loadMenuFromSheets();
         scheduleMenuLoad(); // Rekurzivně nastavíme další interval
     }, timeUntilNextLoad);
-};
-
-    // Nastavíme timeout na příští 8:00
-    setTimeout(() => {
-        loadMenuFromSheets();
-
-        // Pak nastavíme opakování každých 24 hodin
-        setInterval(loadMenuFromSheets, 24 * 60 * 60 * 1000);
-    }, timeUntilNext8AM);
 }
 
 // Načteme menu hned při otevření stránky + nastavíme automatické načítání
@@ -128,18 +114,34 @@ document.addEventListener('DOMContentLoaded', () => {
 const burgerMenu = document.querySelector('.burger-menu');
 const navLinks = document.querySelector('.nav-links');
 
-if (burgerMenu) {
+if (burgerMenu && navLinks) {
+
     burgerMenu.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
+        navLinks.classList.toggle('open');
         burgerMenu.classList.toggle('active');
     });
-}
 
-// Zavři menu když se klikne na odkaz
-const navButtons = navLinks.querySelectorAll('button');
-navButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        navLinks.classList.remove('active');
-        burgerMenu.classList.remove('active');
+
+    const links = navLinks.querySelectorAll('a, button');
+
+    links.forEach(link => {
+        link.addEventListener('click', () => {
+            navLinks.classList.remove('open');
+            burgerMenu.classList.remove('active');
+        });
     });
-});
+
+
+    document.addEventListener('click', (event) => {
+
+        if (
+            navLinks.classList.contains('open') &&
+            !navLinks.contains(event.target) &&
+            !burgerMenu.contains(event.target)
+        ) {
+            navLinks.classList.remove('open');
+            burgerMenu.classList.remove('active');
+        }
+
+    });
+}

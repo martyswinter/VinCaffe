@@ -147,33 +147,70 @@ body {
 
 /* MOBILE NAVBAR */
 @media (max-width: 767px) {
-    .navbar {
-        padding: 0.75rem 1rem;
-    }
 
     .nav-container {
-        gap: 1rem;
+        position: relative;
     }
 
-    .logo {
-        font-size: 1.25rem;
-    }
 
     .nav-links {
+        position: absolute;
+        top: calc(100% + 0.75rem);
+        right: 0;
+        width: fit-content;
+        min-width: 220px;
+        max-width: calc(100vw - 2rem);
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         gap: 0.5rem;
+        padding: 1rem;
+        align-items: flex-start;
+
+        /* připravené pozadí */
+        background-image:
+            linear-gradient(rgba(255, 255, 255, 0.88),
+                rgba(255, 255, 255, 0.88)),
+            url("../assets/images/Backgrou_navbar_Vincaffé.png");
+
+        background-size: cover;
+        background-position: center;
+        border-radius: 1rem;
+        box-shadow:
+            0 8px 24px rgba(0, 0, 0, 0.15);
+        opacity: 0;
+        visibility: hidden;
+        transform:
+            translateY(-10px) scale(.98);
+        transform-origin: top right;
+        transition:
+            opacity .25s ease,
+            transform .25s ease,
+            visibility .25s ease;
+        z-index: 1001;
     }
 
-    .burger-menu {
-        display: flex;
+
+    .nav-links.open {
+        opacity: 1;
+        visibility: visible;
+        transform:
+            translateY(0) scale(1);
     }
 
-    .nav-links {
-        display: none;
+.nav-links li {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+}
+
+    .nav-links a,
+    .nav-links button {
+        width: fit-content;
+        white-space: nowrap;
     }
 
-    .nav-links.active {
-        display: flex;
-    }
 }
 
 /* ====================================
@@ -490,8 +527,9 @@ p {
    ==================================== */
 
 .hero {
-    padding: 4rem 2rem;
-    min-height: 600px;
+    min-height: 520px;
+    max-height: 800px;
+    padding: 3rem 2rem;
 
     background-image: url("../assets/images/hero-background.png");
     background-size: cover;
@@ -528,7 +566,7 @@ p {
 
 .hero-text p {
     font-family: var(--font-heading);
-    font-size: 2.375rem;
+    font-size: 2rem;
     font-weight: 400;
     line-height: 150%;
     letter-spacing: 0.11875rem;
@@ -569,7 +607,7 @@ p {
     }
 
     .hero-text p {
-        font-size: 1rem;
+        font-size: 1.5rem;
     }
 }
 
@@ -685,6 +723,7 @@ p {
     }
 }
 
+
 /* ====================================
    TEAM SEKCE
    ==================================== */
@@ -695,77 +734,197 @@ p {
     width: 100%;
 }
 
-.team-section > h2 {
+.team-section>h2 {
     max-width: 1440px;
     margin-left: auto;
     margin-right: auto;
 }
 
+.team-section>p {
+    max-width: 1440px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
 .team-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    display: flex;
+    justify-content: center;
     gap: 2rem;
     margin-top: 2rem;
     max-width: 1440px;
     margin-left: auto;
     margin-right: auto;
+    flex-wrap: nowrap;
 }
 
 .team-card {
     display: flex;
-    gap: 1.5rem;
-    background-color: var(--Background-color);
+    width: 26.25rem;
+    height: 17.75rem;
+
     padding: 1.5rem;
-    border-radius: 1rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    gap: 0.625rem;
+
+    justify-content: center;
+    align-items: center;
+
+    background: #FFFFFF;
+    border-radius: 1.25rem;
+
+    overflow: hidden;
+    isolation: isolate;
+
+    box-shadow:
+        0 1px 3px rgba(0, 0, 0, .12),
+        0 4px 8px rgba(0, 0, 0, .08);
+
+    flex-shrink: 0;
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+}
+
+.team-card:hover {
+    transform: translateY(-4px);
+
+    box-shadow:
+        0 4px 8px rgba(0, 0, 0, .16),
+        0 8px 16px rgba(0, 0, 0, .12);
 }
 
 .team-card-image {
-    width: 33.333%;
+    width: 40%;
     height: auto;
-    border-radius: 0.5rem;
-    object-fit: cover;
+    max-height: 100%;
+    border-radius: .75rem;
+    object-fit: contain;
+    object-position: center;
+    align-self: center;
     flex-shrink: 0;
 }
 
 .team-card-text {
-    flex: 1;
+    width: 60%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
 .team-card-text h3 {
-    margin-top: 0;
-    margin-bottom: 0.5rem;
+    margin: 0 0 .5rem 0;
 }
 
 .team-card-text p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+
+    -webkit-line-clamp: 8;
+    line-clamp: 8;
+
     font-size: 0.9375rem;
+    line-height: 150%;
 }
 
-@media (max-width: 1199px) {
+@media (max-width:1199px) {
+
+    .team-section {
+        padding: 3rem 2rem;
+    }
+
     .team-grid {
-        grid-template-columns: repeat(2, 1fr);
+        justify-content: flex-start;
+        gap: 1.5rem;
+        overflow-x: auto;
+        scroll-snap-type: x proximity;
+        padding-bottom: .5rem;
+        scrollbar-width: none;
+    }
+
+    .team-grid::-webkit-scrollbar {
+        display: none;
+    }
+
+    .team-card {
+        width: 400px;
+        height: 300px;
+        scroll-snap-align: start;
     }
 }
 
-@media (max-width: 767px) {
+@media (max-width:767px) {
+
+    .team-card {
+        width: 100%;
+        max-width: 420px;
+        height: auto;
+        min-height: unset;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 1.25rem;
+    }
+
+    .team-card-image {
+        width: 100%;
+        height: auto;
+        max-height: 200px;
+        object-fit: contain;
+        object-position: center;
+        align-self: center;
+    }
+
+    .team-card-text {
+        width: 100%;
+        align-items: center;
+    }
+}
+
+@media (max-width:767px) {
+
     .team-section {
         padding: 2rem 1rem;
     }
 
     .team-grid {
-        grid-template-columns: 1fr;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        gap: 1rem;
+        overflow: visible;
     }
 
     .team-card {
+        width: 100%;
+        max-width: 26.25rem;
+        height: auto;
+        flex-direction: column;
+        padding: 1.25rem;
         gap: 1rem;
-        padding: 1rem;
+        text-align: center;
+    }
+
+    .team-card-image {
+        width: 100%;
+        max-height: 200px;
+        object-fit: contain;
+        object-position: center;
+        align-self: center;
+    }
+
+    .team-card-text {
+        width: 100%;
+        align-items: center;
     }
 
     .team-card-text p {
-        font-size: 0.875rem;
+        font-size: .875rem;
     }
 }
 
@@ -792,10 +951,17 @@ p {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
+    text-align: center;
+
 }
 
 .garden-text h2 {
-    text-align: left;
+    text-align: center;
+}
+
+.garden-text p {
+    max-width: 400px;
 }
 
 .garden-image {
@@ -804,7 +970,7 @@ p {
 }
 
 .garden-image img {
-    width: 100%;
+    max-width: 400px;
     height: auto;
     border-radius: 1rem;
     object-fit: cover;
@@ -850,7 +1016,7 @@ p {
 }
 
 .interior-image img {
-    width: 100%;
+    max-width: 500px;
     height: auto;
     border-radius: 1rem;
     object-fit: cover;
@@ -860,10 +1026,16 @@ p {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    text-align: center;
 }
 
 .interior-text h2 {
-    text-align: left;
+    text-align: center;
+}
+
+.interior-text p {
+    max-width: 400px;
+    align-self: center;
 }
 
 @media (max-width: 767px) {
@@ -886,7 +1058,7 @@ p {
    ==================================== */
 
 .footer {
-    background: linear-gradient(135deg, rgba(132, 107, 17, 0.1) 0%, rgba(217, 70, 166, 0.05) 100%);
+    background: url("../assets/images/footer-background.jpg");
     padding: 3rem 2rem;
     color: var(--Body-text-color);
     width: 100%;
@@ -911,7 +1083,7 @@ p {
 }
 
 .footer-column h3 {
-    margin-bottom: 0.5rem;
+    margin-bottom: -0.5rem;
     color: var(--Title-color);
     text-align: center;
 }
