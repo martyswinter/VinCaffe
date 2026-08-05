@@ -641,6 +641,13 @@ p {
     margin-top: 2rem;
 }
 
+.weekend-menu-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
 .menu-day {
     padding: 1.5rem;
     border-right: 1px solid var(--Border-color);
@@ -989,6 +996,7 @@ p {
     .garden-text h2 {
         text-align: center;
     }
+    
 }
 
 /* ====================================
