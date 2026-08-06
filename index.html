@@ -43,7 +43,7 @@
     </section>
 
     <!-- TÝDENNÍ MENU -->
-    <section id="menu" class="menu-section">
+    <section id="weekly-menu" class="menu-section hidden-menu">
         <div class="menu-container">
             <h2>Týdenní menu</h2>
             <p class="menu-subtitle">od 11:30 do vyprodání / i s sebou do krabičky</p>
@@ -147,133 +147,112 @@
         </div>
     </section>
 
-
-        <!-- VNITŘNÍ PROSTORY - 2 COLUMNS (obrázek vlevo, text vpravo) -->
-        <section id="interior" class="interior-section">
-            <div class="interior-container">
-                <div class="interior-image">
-                    <img src="assets/images/Kavarna vnitrek.png" alt="Pohodlná kavárna">
-                </div>
-                <div class="interior-text">
-                    <h2>Vnitřní prostory</h2>
-                    <p>Naše kavárna je středně veliká. Kolem 35 míst uvnitř. Volit můžete mezi klasickým sezení, např. k jídlu
-                        nebo se vrtnout
-                        k našemu čtecímu stolku.</p>
-                </div>
-            </div>
-        </section>
-
     <!-- Víkendový brunch -->
-    <section id="menu" class="menu-section">
+    <section id="weekend-menu" class="menu-section hidden-menu">
         <div class="menu-container">
             <h2>Víkendový brunch</h2>
             <p class="menu-subtitle">každý den o víkendu do vyprodání</p>
     
             <div class="weekend-menu-grid">
-                <!-- Sobota -->
-                <div class="menu-day">
-                    <h3 id="day-po">Sobota</h3>
-                    <div class="menu-items">
-                        <div class="menu-item">
-                            <img src="assets/icons/soup-icon.svg" alt="Polévka" class="menu-icon">
-                            <p id="po-soup">Polévka</p>
-                        </div>
-                        <div class="menu-item">
-                            <img src="assets/icons/vegetarian-icon.svg" alt="Jídlo" class="menu-icon">
-                            <p id="po-main1">Hlavní jídlo 1</p>
-                        </div>
-                        <div class="menu-item">
-                            <img src="assets/icons/meat-icon.svg" alt="Jídlo" class="menu-icon">
-                            <p id="po-main2">Hlavní jídlo 2</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Neděle -->
-                <div class="menu-day">
-                    <h3 id="day-ut">Neděle</h3>
-                    <div class="menu-items">
-                        <div class="menu-item">
-                            <img src="assets/icons/soup-icon.svg" alt="Polévka" class="menu-icon">
-                            <p id="ut-soup">Polévka</p>
-                        </div>
-                        <div class="menu-item">
-                            <img src="assets/icons/vegetarian-icon.svg" alt="Jídlo" class="menu-icon">
-                            <p id="ut-main1">Hlavní jídlo 1</p>
-                        </div>
-                        <div class="menu-item">
-                            <img src="assets/icons/meat-icon.svg" alt="Jídlo" class="menu-icon">
-                            <p id="ut-main2">Hlavní jídlo 2</p>
-                        </div>
+                <!-- Sobota & Neděle -->
+                <div class="menu-weekend">
+                    <h3 id="weekend">Sobota & Neděle</h3>
+                    <div class="menu-items-weekend">
+
+            <div class="menu-item">
+                <img src="assets/icons/soup-icon.svg" alt="Polévka" class="menu-icon">
+                <p id="brunch-main1">Jídlo 1</p>
+            </div>
+            
+            <div class="menu-item">
+                <img src="assets/icons/vegetarian-icon.svg" alt="Jídlo" class="menu-icon">
+                <p id="brunch-main2">Jídlo 2</p>
+            </div>
+            
+            <div class="menu-item">
+                <img src="assets/icons/meat-icon.svg" alt="Jídlo" class="menu-icon">
+                <p id="brunch-main3">Jídlo 3</p>
+            </div>
+                    
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-<!-- O TÝMU -->
-<section id="team" class="team-section">
-    <h2>Náš tým</h2>
-    <p>Náš kompletní tým čítá mnohem více šikovných lídí, níže najdete však naše stálice po desetiletí.</p>
-    <div class="team-grid">
+            
 
-        <div class="team-card">
-            <img src="assets/images/Profile-Kaja.jpg" alt="Karolína" class="team-card-image">
+<!-- O NÁS SEKCE -->
+<section id="about" class="about-section">
+    <h2>O nás</h2>
+    <p>Naše kavárna je víc než jen místo k pití kávy a vína. Je to prostor, kde se setkávají lidé, kde se rodí příběhy a
+        kde každý den vytváříme atmosféru, která dělá návštěvu nezapomenutelnou.</p>
 
-            <div class="team-card-text">
-                <h3>Karolína</h3>
-                <p>
-                    Nejčastěji maká v kuchyni, ale občas i na baru. Je to druhá nejvyšší z nejvyšších
-                    a stará se o to, aby vše šlapalo, jak má, i když občas to šlape jen po jedné noze.
-                    Miluje Asii a květiny, a proto se u nás objevují i asijské recepty a
-                    všudypřítomné květiny.
-                </p>
+    <!-- PODSEKCE: TÝM -->
+    <section id="team" class="team-section">
+        <h3>Náš tým</h3>
+        <p>Náš kompletní tým čítá mnohem více šikovných lídí, níže najdete však naše stálice po desetiletí.</p>
+        <div class="team-grid">
+            <div class="team-card">
+                <img src="assets/images/Profile-Kaja.jpg" alt="Karolína" class="team-card-image">
+                <div class="team-card-text">
+                    <h4>Karolína</h4>
+                    <p>Nejčastěji maká v kuchyni, ale občas i na baru. Je to druhá nejvyšší z nejvyšších a stará se o
+                        to, aby vše šlapalo, jak má, i když občas to šlape jen po jedné noze. Miluje Asii a květiny, a
+                        proto se u nás objevují i asijské recepty a všudypřítomné květiny.</p>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <img src="assets/images/Profile-Martin.jpg" alt="Martin" class="team-card-image">
+                <div class="team-card-text">
+                    <h4>Martin</h4>
+                    <p>Našeho podniku. Jeho kudrnatou hřívu jen tak někdo nepřehlídne. Vína umí doporučit nejlépe z nás
+                        všech a taky proto je má všechny na starost. Pokud se nevíte rady, on Vám pomůže zajisté
+                        nejlépe.</p>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <img src="assets/images/Profile-Jirina.jpg" alt="Jiřina" class="team-card-image">
+                <div class="team-card-text">
+                    <h4>Jiřina</h4>
+                    <p>Jiřina je vidět tak nějak všude a nikde. Je to nejvyšší z nejvyšších a proto jí tu všichni
+                        posloucháme. Vymýšlí pro Vás hlavně italské dobroty a stará se nejvíc o tu nezábavnou část, a to
+                        je papírování.</p>
+                </div>
             </div>
         </div>
+    </section>
 
-
-        <div class="team-card">
-            <img src="assets/images/Profile-Martin.jpg" alt="Martin" class="team-card-image">
-
-            <div class="team-card-text">
-                <h3>Martin</h3>
-                <p>
-                    Našeho podniku. Jeho kudrnatou hřívu jen tak někdo nepřehlídne.
-                    Vína umí doporučit nejlépe z nás všech a taky proto je má všechny na starost.
-                    Pokud se nevíte rady, on Vám pomůže zajisté nejlépe.
-                </p>
-            </div>
-        </div>
-
-
-        <div class="team-card">
-            <img src="assets/images/Profile-Jirina.jpg" alt="Jiřina" class="team-card-image">
-
-            <div class="team-card-text">
-                <h3>Jiřina</h3>
-                <p>
-                    Jiřina je vidět tak nějak všude a nikde. Je to nejvyšší z nejvyšších
-                    a proto jí tu všichni posloucháme. Vymýšlí pro Vás hlavně italské dobroty
-                    a stará se nejvíc o tu nezábavnou část, a to je papírování.
-                </p>
-            </div>
-        </div>
-
-    </div>
-</section>
-
-    <!-- ZAHRADA - 2 COLUMNS (text vlevo, obrázek vpravo) -->
+    <!-- PODSEKCE: ZAHRÁDKA -->
     <section id="garden" class="garden-section">
         <div class="garden-container">
             <div class="garden-text">
-                <h2>Zahrádka</h2>
-                <p>Pokud to počasí jen dovolí, máme otevřenou zahrádku, kde si můžete odpočinout pod korunami našich krásných kaštanů a
-                třeba si i něco ugrilovat.</p>
+                <h3>Zahrádka</h3>
+                <p>Pokud to počasí jen dovolí, máme otevřenou zahrádku, kde si můžete odpočinout pod korunami našich
+                    krásných kaštanů a třeba si i něco ugrilovat.</p>
             </div>
             <div class="garden-image">
                 <img src="assets/images/Zahradka_Vnitroblok.png" alt="Zahrádka vnitrobloku">
             </div>
         </div>
     </section>
+
+    <!-- PODSEKCE: VNITŘNÍ PROSTORY -->
+    <section id="interior" class="interior-section">
+        <div class="interior-container">
+            <div class="interior-image">
+                <img src="assets/images/Kavarna vnitrek.png" alt="Pohodlná kavárna">
+            </div>
+            <div class="interior-text">
+                <h3>Vnitřní prostory</h3>
+                <p>Naše kavárna je středně veliká. Kolem 35 míst uvnitř. Volit můžete mezi klasickým sezením, např. k
+                    jídlu nebo se vrtnout k našему čtecímu stolku.</p>
+            </div>
+        </div>
+    </section>
+</section>
 
     <!-- FOOTER -->
     <footer class="footer">

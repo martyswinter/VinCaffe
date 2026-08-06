@@ -1,147 +1,566 @@
-// URL pro načtení dat z Google Sheets jako CSV
+// ====================================
+// GOOGLE SHEETS MENU
+// ====================================
+
 const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTkGElCHPPqJQFdspzR4c6oNZUYUxIQtgMdRucloCUfnqZ8wFI2Xk4MAWq4gPcotrlB9WczAl9wM1rf/pub?output=csv';
 
-// Funkce na načtení a zpracování dat
+const BRUNCH_CSV_URL =
+    'https://docs.google.com/spreadsheets/d/1oC8J34A4j3nUnX7MUZXyRYEUhTZeS-H7vHcte0B_i_Y/export?format=csv&gid=1109883270';
+
+// ====================================
+// TIMEZONE HELPER
+// ====================================
+
+function getCzechTime() {
+
+    return new Date(
+        new Date().toLocaleString("en-US", {
+            timeZone: "Europe/Prague"
+        })
+    );
+
+}
+
+
+// ====================================
+// LOAD MENU FROM GOOGLE SHEETS
+// ====================================
+
 async function loadMenuFromSheets() {
+
     try {
+
         const response = await fetch(CSV_URL);
         const csvText = await response.text();
 
-        // Rozdělíme CSV na řádky
-        const lines = csvText.trim().split('\n');
+        const lines = csvText.trim().split("\n");
 
-        // Přeskočíme první řádek (nadpisy)
         const daysData = lines.slice(1);
 
-        // Mapování dní na ID
+
         const daysMap = {
-            'Pondělí': 'po',
-            'Úterý': 'ut',
-            'Středa': 'st',
-            'Čtvrtek': 'ct',
-            'Pátek': 'pa'
+
+            "Pondělí": "po",
+            "Úterý": "ut",
+            "Středa": "st",
+            "Čtvrtek": "ct",
+            "Pátek": "pa"
+
         };
 
-        // Procházíme každý den
-        daysData.forEach((line, index) => {
-            const [den, datum, polEvka, jidlo1, jidlo2] = line.split(',').map(item => item.trim());
 
-            if (den && daysMap[den]) {
-                const dayCode = daysMap[den];
+        daysData.forEach(line => {
 
-                // Aktualizujeme nadpis s datem
-                const dayHeader = document.getElementById(`day-${dayCode}`);
-                if (dayHeader && datum) {
-                    dayHeader.textContent = `${den} ${datum}`;
-                }
+            const [
+                den,
+                datum,
+                polEvka,
+                jidlo1,
+                jidlo2
+            ] = line.split(",").map(item => item.trim());
 
-                // Aktualizujeme jídla
-                if (polEvka) document.getElementById(`${dayCode}-soup`).textContent = polEvka;
-                if (jidlo1) document.getElementById(`${dayCode}-main1`).textContent = jidlo1;
-                if (jidlo2) document.getElementById(`${dayCode}-main2`).textContent = jidlo2;
+
+            if (!daysMap[den]) return;
+
+
+            const dayCode = daysMap[den];
+
+
+            const dayHeader =
+                document.getElementById(`day-${dayCode}`);
+
+
+            if (dayHeader && datum) {
+
+                dayHeader.textContent =
+                    `${den} ${datum}`;
+
             }
+
+
+            if (polEvka) {
+
+                document.getElementById(
+                    `${dayCode}-soup`
+                ).textContent = polEvka;
+
+            }
+
+
+            if (jidlo1) {
+
+                document.getElementById(
+                    `${dayCode}-main1`
+                ).textContent = jidlo1;
+
+            }
+
+
+            if (jidlo2) {
+
+                document.getElementById(
+                    `${dayCode}-main2`
+                ).textContent = jidlo2;
+
+            }
+
+
         });
 
-        console.log('Menu úspěšně načteno z Google Sheets!');
+
+        console.log("Menu načteno z Google Sheets");
+
+
     } catch (error) {
-        console.error('Chyba při načítání menu:', error);
+
+        console.error(
+            "Chyba při načítání menu:",
+            error
+        );
+
     }
+
 }
 
-// Funkce na výpočet času do příštího intervalu (každých 30 minut mezi 8:00-11:00 CET)
-function getTimeUntilNextMenuLoad() {
-    const now = new Date();
-    const czechTime = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Prague' }));
+async function loadBrunchFromSheets() {
 
-    const currentHour = czechTime.getHours();
-    const currentMinutes = czechTime.getMinutes();
+    try {
 
-    // Pokud je před 8:00, nastavíme na 8:00
-    if (currentHour < 8) {
-        const nextLoad = new Date(czechTime);
-        nextLoad.setHours(8, 0, 0, 0);
-        return nextLoad - czechTime;
-    }
+        const response = await fetch(BRUNCH_CSV_URL);
+        const csvText = await response.text();
 
-    // Pokud je po 11:00, nastavíme na zítřek v 8:00
-    if (currentHour >= 11) {
-        const nextLoad = new Date(czechTime);
-        nextLoad.setDate(nextLoad.getDate() + 1);
-        nextLoad.setHours(8, 0, 0, 0);
-        return nextLoad - czechTime;
-    }
-
-    // Pokud je mezi 8:00-11:00, spočítáme příští interval (každých 30 minut)
-    const minutesInHour = currentMinutes;
-    const nextIntervalMinutes = Math.ceil(minutesInHour / 30) * 30;
-
-    const nextLoad = new Date(czechTime);
-    nextLoad.setMinutes(nextIntervalMinutes, 0, 0);
-
-    // Pokud se dostaneme přes 11:00, nastavíme na zítřek v 8:00
-    if (nextLoad.getHours() >= 11) {
-        nextLoad.setDate(nextLoad.getDate() + 1);
-        nextLoad.setHours(8, 0, 0, 0);
-    }
-
-    return nextLoad - czechTime;
-}
-
-// Funkce na plánování načítání každých 30 minut mezi 8:00-11:00 CET
-function scheduleMenuLoad() {
-    const timeUntilNextLoad = getTimeUntilNextMenuLoad();
-    const minutesUntil = Math.floor(timeUntilNextLoad / 1000 / 60);
-
-    console.log(`Menu se nahraje za ${minutesUntil} minut`);
-
-    // Nastavíme timeout na příští interval
-    setTimeout(() => {
-        loadMenuFromSheets();
-        scheduleMenuLoad(); // Rekurzivně nastavíme další interval
-    }, timeUntilNextLoad);
-}
-
-// Načteme menu hned při otevření stránky + nastavíme automatické načítání
-document.addEventListener('DOMContentLoaded', () => {
-    loadMenuFromSheets(); // Hned loadujeme
-    scheduleMenuLoad();   // A nastavíme automatické načítání v 8:00 CET
-});
-
-/* ====================================
-   BURGER MENU - MOBILE NAVIGATION
-   ==================================== */
-
-const burgerMenu = document.querySelector('.burger-menu');
-const navLinks = document.querySelector('.nav-links');
-
-if (burgerMenu && navLinks) {
-
-    burgerMenu.addEventListener('click', () => {
-        navLinks.classList.toggle('open');
-        burgerMenu.classList.toggle('active');
-    });
+        const lines = csvText.trim().split('\n');
 
 
-    const links = navLinks.querySelectorAll('a, button');
+        // přeskočíme první řádek s názvem Sobota & Neděle
+        const brunchItems = lines.slice(1, 4);
 
-    links.forEach(link => {
-        link.addEventListener('click', () => {
-            navLinks.classList.remove('open');
-            burgerMenu.classList.remove('active');
+
+        brunchItems.forEach((line, index) => {
+
+            // rozdělíme pouze na první čárce
+            const parts = line.split(/,(.+)/);
+
+            const text = parts[1]
+                ? parts[1].replace(/^"|"$/g, '').trim()
+                : "";
+
+
+            const element = document.getElementById(
+                `brunch-main${index + 1}`
+            );
+
+
+            if (element) {
+                element.textContent = text;
+            }
+
         });
-    });
 
 
-    document.addEventListener('click', (event) => {
+        console.log("Brunch menu načteno");
 
-        if (
-            navLinks.classList.contains('open') &&
-            !navLinks.contains(event.target) &&
-            !burgerMenu.contains(event.target)
-        ) {
-            navLinks.classList.remove('open');
-            burgerMenu.classList.remove('active');
-        }
+    } catch (error) {
 
-    });
+        console.error(
+            "Chyba při načítání brunch menu:",
+            error
+        );
+
+    }
+
 }
+
+// ====================================
+// MENU SWITCH
+// Pá 16:00 → Ne 16:00 brunch
+// Ne 16:00 → Pá 16:00 týdenní menu
+// ====================================
+
+
+function isWeekendMenu() {
+
+    const now = getCzechTime();
+
+    const day = now.getDay();
+    const hour = now.getHours();
+
+}
+
+
+
+function updateVisibleMenu() {
+
+    const weekly = document.getElementById("weekly-menu");
+    const weekend = document.getElementById("weekend-menu");
+
+    if (!weekly || !weekend) {
+        console.log("Menu element nenalezen");
+        return;
+    }
+
+
+    if (isWeekendMenu()) {
+
+        weekly.classList.remove("visible-menu");
+        weekly.classList.add("hidden-menu");
+
+        weekend.classList.remove("hidden-menu");
+        weekend.classList.add("visible-menu");
+
+
+    } else {
+
+        weekend.classList.remove("visible-menu");
+        weekend.classList.add("hidden-menu");
+
+        weekly.classList.remove("hidden-menu");
+        weekly.classList.add("visible-menu");
+
+    }
+
+}
+
+
+
+// ====================================
+// NEXT MENU SWITCH CALCULATION
+// ====================================
+
+
+function getNextMenuSwitch() {
+
+
+    const now = getCzechTime();
+
+    const next = new Date(now);
+
+
+    const day = now.getDay();
+
+    const hour = now.getHours();
+
+
+
+    // pátek po 16, sobota, neděle před 16
+    if (
+
+        (day === 5 && hour >= 16) ||
+        day === 6 ||
+        (day === 0 && hour < 16)
+
+    ) {
+
+
+        const days =
+            day === 0
+                ? 0
+                : 7 - day;
+
+
+        next.setDate(
+            now.getDate() + days
+        );
+
+
+        next.setHours(
+            16,
+            0,
+            0,
+            0
+        );
+
+
+    }
+
+
+    // neděle po 16
+    else if (day === 0) {
+
+
+        next.setDate(
+            now.getDate() + 5
+        );
+
+
+        next.setHours(
+            16,
+            0,
+            0,
+            0
+        );
+
+
+    }
+
+
+    // pondělí až čtvrtek
+    else {
+
+
+        next.setDate(
+            now.getDate() + (5 - day)
+        );
+
+
+        next.setHours(
+            16,
+            0,
+            0,
+            0
+        );
+
+
+    }
+
+
+    return next;
+
+
+}
+
+
+
+function scheduleMenuSwitch() {
+
+
+    const delay =
+        getNextMenuSwitch().getTime()
+        -
+        getCzechTime().getTime();
+
+
+
+    console.log(
+        "Další přepnutí menu:",
+        getNextMenuSwitch()
+    );
+
+
+
+    setTimeout(() => {
+
+
+        updateVisibleMenu();
+
+        scheduleMenuSwitch();
+
+
+    }, delay);
+
+
+}
+
+
+
+// ====================================
+// MENU DATA AUTO UPDATE
+// 8:00 - 11:00 každých 30 minut
+// ====================================
+
+
+function getTimeUntilNextMenuLoad() {
+
+
+    const now = getCzechTime();
+
+
+    const hour =
+        now.getHours();
+
+
+    const minutes =
+        now.getMinutes();
+
+
+
+    if (hour < 8) {
+
+
+        const next = new Date(now);
+
+        next.setHours(
+            8,
+            0,
+            0,
+            0
+        );
+
+
+        return next - now;
+
+
+    }
+
+
+
+    if (hour >= 11) {
+
+
+        const next = new Date(now);
+
+
+        next.setDate(
+            now.getDate() + 1
+        );
+
+
+        next.setHours(
+            8,
+            0,
+            0,
+            0
+        );
+
+
+        return next - now;
+
+
+    }
+
+
+
+    const next = new Date(now);
+
+
+    next.setMinutes(
+        Math.ceil(minutes / 30) * 30,
+        0,
+        0
+    );
+
+
+    return next - now;
+
+
+}
+
+
+
+function scheduleMenuLoad() {
+
+
+    setTimeout(() => {
+
+
+        loadMenuFromSheets();
+
+        scheduleMenuLoad();
+
+
+    }, getTimeUntilNextMenuLoad());
+
+
+}
+
+
+
+
+// ====================================
+// BURGER MENU
+// ====================================
+
+
+function initBurgerMenu() {
+
+
+    const burger =
+        document.querySelector(".burger-menu");
+
+
+    const menu =
+        document.querySelector(".nav-links");
+
+
+
+    if (!burger || !menu) return;
+
+
+
+    burger.addEventListener(
+        "click",
+        () => {
+
+            menu.classList.toggle("open");
+
+            burger.classList.toggle("active");
+
+        }
+    );
+
+
+
+    menu
+        .querySelectorAll("a, button")
+        .forEach(link => {
+
+
+            link.addEventListener(
+                "click",
+                () => {
+
+                    menu.classList.remove("open");
+
+                    burger.classList.remove("active");
+
+                }
+            );
+
+
+        });
+
+
+
+    document.addEventListener(
+        "click",
+        event => {
+
+
+            if (
+
+                menu.classList.contains("open") &&
+                !menu.contains(event.target) &&
+                !burger.contains(event.target)
+
+            ) {
+
+
+                menu.classList.remove("open");
+
+                burger.classList.remove("active");
+
+
+            }
+
+
+        }
+    );
+
+
+}
+
+
+
+
+// ====================================
+// INITIALIZATION
+// ====================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        loadMenuFromSheets();
+
+        loadBrunchFromSheets();
+
+        updateVisibleMenu();
+
+        scheduleMenuLoad();
+
+        scheduleMenuSwitch();
+
+        initBurgerMenu();
+
+    }
+);
