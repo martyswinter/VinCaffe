@@ -1193,25 +1193,31 @@ p {
 }
 
 /* ====================================
-   MENU CAROUSEL
-   ==================================== */
+MENU CAROUSEL
+==================================== */
 
 .menu-carousel-wrapper {
     position: relative;
+
     display: flex;
     align-items: center;
     justify-content: center;
 
+    width: 100%;
     max-width: 900px;
+
     margin: 2rem auto 0;
 }
 
 
+/* okno carouselu */
+
 .menu-carousel {
     width: 100%;
-    max-width: 700px;
+    max-width: 900px;
 
     display: flex;
+
     overflow: hidden;
 
     scroll-behavior: smooth;
@@ -1220,7 +1226,7 @@ p {
 }
 
 
-/* jednotlivé menu obrázky */
+/* jednotlivé stránky menu */
 
 .menu-slide {
     min-width: 100%;
@@ -1229,17 +1235,23 @@ p {
     justify-content: center;
     align-items: center;
 
-    transition: transform .35s ease;
 }
 
 
+/* obrázek menu */
+
 .menu-slide img {
-    width: 100%;
+    display: block;
+
+    width: auto;
+    height: auto;
+
+    margin: 0.5rem;
+
+    max-width: 100%;
     max-height: 80vh;
 
     object-fit: contain;
-
-    display: block;
 
     border-radius: 1.25rem;
 
@@ -1247,7 +1259,6 @@ p {
         0 1px 3px rgba(0, 0, 0, .12),
         0 4px 12px rgba(0, 0, 0, .10);
 }
-
 
 /* ====================================
    ŠIPKY CAROUSELU
