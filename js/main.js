@@ -460,7 +460,7 @@ function scheduleMenuLoad() {
 }
 
 
-// ====================================
+/// ====================================
 // LOAD MENU CAROUSEL
 // ====================================
 
@@ -474,7 +474,9 @@ async function loadMenuCarousel() {
             throw new Error(`HTTP chyba: ${response.status}`);
         }
 
+
         const csv = await response.text();
+
 
         console.log("MENU CAROUSEL CSV:");
         console.log(csv);
@@ -484,6 +486,7 @@ async function loadMenuCarousel() {
             .trim()
             .split("\n")
             .slice(1);
+
 
 
         const carousel =
@@ -499,47 +502,72 @@ async function loadMenuCarousel() {
         carousel.innerHTML = "";
 
 
+
         rows.forEach(row => {
 
+
             const [
-                order,
+                fileName,
                 fileId,
                 active
-            ] = row.split(",").map(item => item.trim());
+            ] = row
+                .split(",")
+                .map(item => item.trim());
+
+
+
+            console.log(
+                "Carousel položka:",
+                fileName,
+                fileId,
+                active
+            );
+
 
 
             if (
-                active?.toUpperCase() === "TRUE"
+                active?.toLowerCase() === "ano"
                 &&
                 fileId
             ) {
+
 
                 const imageUrl =
                     `https://drive.google.com/uc?export=view&id=${fileId}`;
 
 
+
                 const slide =
                     document.createElement("div");
+
 
                 slide.className =
                     "menu-slide";
 
 
+
                 const image =
                     document.createElement("img");
 
+
                 image.src = imageUrl;
 
-                image.alt = "Menu";
+                image.alt =
+                    fileName || "Menu";
+
 
 
                 slide.appendChild(image);
 
+
                 carousel.appendChild(slide);
+
 
             }
 
+
         });
+
 
 
         console.log(
@@ -549,10 +577,12 @@ async function loadMenuCarousel() {
 
     } catch (error) {
 
+
         console.error(
             "Chyba při načítání menu carouselu:",
             error
         );
+
 
     }
 
