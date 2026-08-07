@@ -8,6 +8,12 @@ const BRUNCH_CSV_URL =
     'https://docs.google.com/spreadsheets/d/1oC8J34A4j3nUnX7MUZXyRYEUhTZeS-H7vHcte0B_i_Y/export?format=csv&gid=1109883270';
 
 // ====================================
+// MENU CAROUSEL GOOGLE SHEETS
+// ====================================
+
+const MENU_CAROUSEL_CSV =
+    'https://docs.google.com/spreadsheets/d/e/2PACX-1vTkGElCHPPqJQFdspzR4c6oNZUYUxIQtgMdRucloCUfnqZ8wFI2Xk4MAWq4gPcotrlB9WczAl9wM1rf/pub?gid=1118662332&single=true&output=csv';
+// ====================================
 // TIMEZONE HELPER
 // ====================================
 
@@ -454,7 +460,103 @@ function scheduleMenuLoad() {
 }
 
 
+// ====================================
+// LOAD MENU CAROUSEL
+// ====================================
 
+async function loadMenuCarousel() {
+
+    try {
+
+        const response = await fetch(MENU_CAROUSEL_CSV);
+
+        if (!response.ok) {
+            throw new Error(`HTTP chyba: ${response.status}`);
+        }
+
+        const csv = await response.text();
+
+        console.log("MENU CAROUSEL CSV:");
+        console.log(csv);
+
+
+        const rows = csv
+            .trim()
+            .split("\n")
+            .slice(1);
+
+
+        const carousel =
+            document.getElementById("menuCarousel");
+
+
+        if (!carousel) {
+            console.error("Nenalezen element #menuCarousel");
+            return;
+        }
+
+
+        carousel.innerHTML = "";
+
+
+        rows.forEach(row => {
+
+            const [
+                order,
+                fileId,
+                active
+            ] = row.split(",").map(item => item.trim());
+
+
+            if (
+                active?.toUpperCase() === "TRUE"
+                &&
+                fileId
+            ) {
+
+                const imageUrl =
+                    `https://drive.google.com/uc?export=view&id=${fileId}`;
+
+
+                const slide =
+                    document.createElement("div");
+
+                slide.className =
+                    "menu-slide";
+
+
+                const image =
+                    document.createElement("img");
+
+                image.src = imageUrl;
+
+                image.alt = "Menu";
+
+
+                slide.appendChild(image);
+
+                carousel.appendChild(slide);
+
+            }
+
+        });
+
+
+        console.log(
+            "Menu carousel úspěšně načten."
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Chyba při načítání menu carouselu:",
+            error
+        );
+
+    }
+
+}
 
 // ====================================
 // BURGER MENU
@@ -552,7 +654,7 @@ document.addEventListener(
 
         loadMenuFromSheets();
 
-        loadBrunchFromSheets();
+        loadMenuCarousel();
 
         updateVisibleMenu();
 

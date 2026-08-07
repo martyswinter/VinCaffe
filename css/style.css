@@ -559,7 +559,6 @@ p {
 }
 
 .hero-text h1 {
-    text-align: left;
     margin-bottom: 1rem;
     text-align: center;
 }
@@ -573,9 +572,7 @@ p {
     color: var(--Title-color);
     text-align: center;
     margin-top: 1.5rem;
-    margin-bottom: 1rem;
     margin-bottom: 2rem;
-
 }
 
 .hero-image {
@@ -591,10 +588,50 @@ p {
     object-fit: cover;
 }
 
+
+/* ====================================
+   HERO - TABLET
+   ==================================== */
+
+@media (min-width: 768px) and (max-width: 1000px) {
+
+    .hero {
+        min-height: auto;
+        max-height: none;
+        padding: 4rem 2rem;
+    }
+
+    .hero-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .hero-text {
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    .hero-text p {
+        font-size: 1.75rem;
+    }
+
+    .hero-image {
+        max-width: 700px;
+        margin: 0 auto;
+    }
+}
+
+
+/* ====================================
+   HERO - MOBILE
+   ==================================== */
+
 @media (max-width: 767px) {
+
     .hero {
         padding: 2rem 1rem;
         min-height: auto;
+        max-height: none;
     }
 
     .hero-container {
@@ -610,7 +647,6 @@ p {
         font-size: 1.5rem;
     }
 }
-
 /* ====================================
    MENU SEKCE
    ==================================== */
@@ -1154,6 +1190,238 @@ p {
     .interior-text h2 {
         text-align: center;
     }
+}
+
+/* ====================================
+   MENU CAROUSEL
+   ==================================== */
+
+.menu-carousel-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    max-width: 900px;
+    margin: 2rem auto 0;
+}
+
+
+.menu-carousel {
+    width: 100%;
+    max-width: 700px;
+
+    display: flex;
+    overflow: hidden;
+
+    scroll-behavior: smooth;
+
+    border-radius: 1.25rem;
+}
+
+
+/* jednotlivé menu obrázky */
+
+.menu-slide {
+    min-width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    transition: transform .35s ease;
+}
+
+
+.menu-slide img {
+    width: 100%;
+    max-height: 80vh;
+
+    object-fit: contain;
+
+    display: block;
+
+    border-radius: 1.25rem;
+
+    box-shadow:
+        0 1px 3px rgba(0, 0, 0, .12),
+        0 4px 12px rgba(0, 0, 0, .10);
+}
+
+
+/* ====================================
+   ŠIPKY CAROUSELU
+   ==================================== */
+
+
+.carousel-button {
+
+    width: 3rem;
+    height: 3rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: none;
+    border-radius: 50%;
+
+    background-color: var(--Accent-color);
+    color: white;
+
+    font-size: 2rem;
+    line-height: 1;
+
+    cursor: pointer;
+
+    position: absolute;
+
+    transition:
+        transform .2s ease,
+        opacity .2s ease;
+}
+
+
+.carousel-button:hover {
+    transform: scale(1.1);
+}
+
+
+.carousel-prev {
+    left: -4rem;
+}
+
+
+.carousel-next {
+    right: -4rem;
+}
+
+
+
+/* ====================================
+   DOTS
+   ==================================== */
+
+
+.carousel-dots {
+
+    display: flex;
+    justify-content: center;
+
+    gap: .5rem;
+
+    margin-top: 1.5rem;
+}
+
+
+.carousel-dot {
+
+    width: .5rem;
+    height: .5rem;
+
+    border-radius: 50%;
+
+    background-color: var(--Border-color);
+
+    cursor: pointer;
+
+    transition:
+        transform .2s ease;
+}
+
+
+.carousel-dot.active {
+
+    transform: scale(1.4);
+
+}
+
+
+
+/* ====================================
+   TABLET
+   ==================================== */
+
+
+@media (max-width: 1199px) {
+
+    .menu-carousel-wrapper {
+
+        max-width: 700px;
+
+    }
+
+
+    .carousel-prev {
+        left: -1rem;
+    }
+
+
+    .carousel-next {
+        right: -1rem;
+    }
+
+}
+
+
+
+/* ====================================
+   MOBILE
+   ==================================== */
+
+
+@media (max-width: 767px) {
+
+
+    .menu-carousel-wrapper {
+
+        width: 100%;
+
+    }
+
+
+    .menu-carousel {
+
+        max-width: 100%;
+
+        border-radius: 1rem;
+
+    }
+
+
+    .menu-slide img {
+
+        border-radius: 1rem;
+
+    }
+
+
+    /* šipky na mobilu pryč */
+
+    .carousel-button {
+
+        display: none;
+
+    }
+
+
+    /* swipe bude fungovat přirozeně */
+
+    .menu-carousel {
+
+        overflow-x: auto;
+
+        scroll-snap-type: x mandatory;
+
+    }
+
+
+    .menu-slide {
+
+        scroll-snap-align: center;
+
+    }
+
 }
 
 /* ====================================
