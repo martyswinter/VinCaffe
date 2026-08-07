@@ -590,6 +590,55 @@ async function loadMenuCarousel() {
 }
 
 // ====================================
+// MENU CAROUSEL CONTROLS
+// ====================================
+
+function initMenuCarouselControls() {
+
+    const wrapper = document.querySelector(".menu-carousel-wrapper");
+
+    if (!wrapper) {
+        console.error("Nenalezen menu carousel wrapper");
+        return;
+    }
+
+
+    const carousel = wrapper.querySelector(".menu-carousel");
+    const prevButton = wrapper.querySelector(".carousel-prev");
+    const nextButton = wrapper.querySelector(".carousel-next");
+
+
+    if (!carousel || !prevButton || !nextButton) {
+        console.error("Carousel tlačítka nebo obsah nenalezen");
+        return;
+    }
+
+
+    nextButton.addEventListener("click", () => {
+
+        carousel.scrollBy({
+            left: carousel.clientWidth,
+            behavior: "smooth"
+        });
+
+    });
+
+
+    prevButton.addEventListener("click", () => {
+
+        carousel.scrollBy({
+            left: -carousel.clientWidth,
+            behavior: "smooth"
+        });
+
+    });
+
+
+    console.log("Menu carousel ovládání aktivní");
+
+}
+
+// ====================================
 // BURGER MENU
 // ====================================
 
@@ -686,6 +735,8 @@ document.addEventListener(
         loadMenuFromSheets();
 
         loadMenuCarousel();
+
+        initMenuCarouselControls();
 
         updateVisibleMenu();
 
