@@ -13,7 +13,8 @@ const BRUNCH_CSV_URL =
 
 const MENU_CAROUSEL_CSV =
     'https://docs.google.com/spreadsheets/d/e/2PACX-1vTkGElCHPPqJQFdspzR4c6oNZUYUxIQtgMdRucloCUfnqZ8wFI2Xk4MAWq4gPcotrlB9WczAl9wM1rf/pub?gid=1118662332&single=true&output=csv';
-// ====================================
+
+    // ====================================
 // TIMEZONE HELPER
 // ====================================
 
@@ -533,7 +534,7 @@ async function loadMenuCarousel() {
 
 
                 const imageUrl =
-                    `https://drive.google.com/uc?export=view&id=${fileId}`;
+                    `https://drive.google.com/thumbnail?id=${fileId}&sz=w1200`;
 
 
 
