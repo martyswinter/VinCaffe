@@ -656,7 +656,7 @@ p {
    ==================================== */
 
 .menu-section {
-    padding: 4rem 2rem;
+    padding: 2rem 2rem;
     background-color: var(--Background-color);
     width: 100%;
 }
@@ -799,7 +799,7 @@ p {
    O nás Sekce
    ==================================== */
 .about-section {
-    padding: 4rem 2rem;
+    padding: 2ch 2rem;
     background-color: #FAFAFA;
     width: 100%;
     align-items: center;
@@ -818,7 +818,6 @@ p {
    ==================================== */
 
 .team-section {
-    padding: 2rem 2rem;
     width: 100%;
     background-color: #FAFAFA;
 }
@@ -944,6 +943,10 @@ TEAM GRID - DESKTOP
 
 @media (max-width:1199px) {
 
+    .about-section {
+            padding: 2rem 1rem;
+        }
+        
     .team-grid {
 
         justify-content: flex-start;
@@ -969,11 +972,6 @@ TEAM GRID - DESKTOP
    ==================================== */
 
 @media (max-width: 767px) {
-
-    .team-section {
-        padding: 2rem 1rem;
-    }
-
 
     .team-grid {
 
@@ -1036,7 +1034,6 @@ TEAM GRID - DESKTOP
    ==================================== */
 
 .garden-section {
-    padding: 2rem 2rem;
     width: 100%;
 }
 
@@ -1080,9 +1077,6 @@ TEAM GRID - DESKTOP
 }
 
 @media (max-width: 767px) {
-    .garden-section {
-        padding: 2rem 1rem;
-    }
 
     .garden-container {
         grid-template-columns: 1fr;
@@ -1106,7 +1100,6 @@ TEAM GRID - DESKTOP
    ==================================== */
 
 .interior-section {
-    padding: 2rem 2rem;
     background-color: #FAFAFA;
     width: 100%;
 }
@@ -1150,9 +1143,6 @@ TEAM GRID - DESKTOP
 }
 
 @media (max-width: 767px) {
-    .interior-section {
-        padding: 2rem 1rem;
-    }
 
     .interior-container {
         grid-template-columns: 1fr;
@@ -1171,6 +1161,75 @@ TEAM GRID - DESKTOP
     .interior-text h2 {
         text-align: center;
     }
+}
+
+/* ====================================
+   AKCE SEKCE
+   ==================================== */
+
+.events-section {
+    width: 100%;
+    padding: 2rem 2rem;
+    background-color: #FAFAFA;
+}
+
+
+/* OBSAH */
+
+.events-container {
+    max-width: 36rem;
+    margin: 0 auto;
+}
+
+
+/* HLAVNÍ NADPIS */
+
+.events-container>h2 {
+    text-align: center;
+}
+
+
+/* NADPISY JEDNOTLIVÝCH AKCÍ */
+
+.events-container h3 {
+    text-align: left;
+}
+
+
+/* TEXT */
+
+.events-container p {
+    padding-bottom: 2rem;
+    margin-left: 0;
+    margin-right: 0;
+
+    text-align: left;
+}
+
+
+/* ====================================
+   TABLET
+   ==================================== */
+
+@media (max-width: 1199px) {
+
+    .events-section {
+        padding: 2rem 1rem;
+    }
+
+}
+
+
+/* ====================================
+   MOBILE
+   ==================================== */
+
+@media (max-width: 767px) {
+
+    .events-section {
+        padding: 2rem 1rem;
+    }
+
 }
 
 /* ====================================
