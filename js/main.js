@@ -461,27 +461,163 @@ function scheduleMenuLoad() {
 }
 
 
-/// ====================================
+// ====================================
+// NAVBAR – SCROLL NAVIGACE
+// ====================================
+
+function initMenuNavigation() {
+
+    const menuButton = document.querySelector(".nav-links .btn-tonal");
+    const contactButton = document.querySelector(".nav-links .btn-outlined");
+
+    const menuSection = document.getElementById("menu-carousel-section");
+    const contactSection = document.getElementById("contact");
+
+    const navbar = document.querySelector(".navbar");
+
+    if (!navbar) {
+        console.error("Navbar nebyl nalezen.");
+        return;
+    }
+
+
+    // MENU
+
+    if (menuButton && menuSection) {
+
+        menuButton.addEventListener("click", () => {
+
+            const navbarHeight = navbar.offsetHeight;
+
+            const targetPosition =
+                menuSection.getBoundingClientRect().top +
+                window.scrollY -
+                navbarHeight;
+
+            window.scrollTo({
+                top: targetPosition,
+                behavior: "smooth"
+            });
+
+        });
+
+    }
+
+
+    // KONTAKT
+
+    if (contactButton && contactSection) {
+
+        contactButton.addEventListener("click", () => {
+
+            const navbarHeight = navbar.offsetHeight;
+
+            const targetPosition =
+                contactSection.getBoundingClientRect().top +
+                window.scrollY -
+                navbarHeight;
+
+            window.scrollTo({
+                top: targetPosition,
+                behavior: "smooth"
+            });
+
+        });
+
+    }
+
+}
+
+// ====================================
 // LOAD MENU CAROUSEL
 // ====================================
 
 async function loadMenuCarousel() {
 
+    const carousel =
+        document.getElementById("menuCarousel");
+
+    const loading =
+        document.getElementById("menuLoading");
+
+    const loadingText =
+        loading?.querySelector(".menu-loading-text");
+
+    const spinner =
+        loading?.querySelector(".menu-spinner");
+
+    const errorMessage =
+        document.getElementById("menuError");
+
+
+    // --------------------------------
+    // KONTROLA CAROUSELU
+    // --------------------------------
+
+    if (!carousel) {
+
+        console.error(
+            "Nenalezen element #menuCarousel"
+        );
+
+        return;
+    }
+
+
     try {
 
-        const response = await fetch(MENU_CAROUSEL_CSV);
+        // --------------------------------
+        // ZOBRAZIT LOADING
+        // --------------------------------
 
-        if (!response.ok) {
-            throw new Error(`HTTP chyba: ${response.status}`);
+        if (loading) {
+            loading.style.display = "flex";
+        }
+
+        if (spinner) {
+            spinner.style.display = "block";
+        }
+
+        if (loadingText) {
+            loadingText.style.display = "block";
+        }
+
+        if (errorMessage) {
+            errorMessage.style.display = "none";
         }
 
 
-        const csv = await response.text();
+        // --------------------------------
+        // NAČTENÍ CSV
+        // --------------------------------
+
+        const response =
+            await fetch(MENU_CAROUSEL_CSV);
 
 
-        console.log("MENU CAROUSEL CSV:");
+        if (!response.ok) {
+
+            throw new Error(
+                `HTTP chyba: ${response.status}`
+            );
+
+        }
+
+
+        const csv =
+            await response.text();
+
+
+        console.log(
+            "MENU CAROUSEL CSV:"
+        );
+
         console.log(csv);
 
+
+        // --------------------------------
+        // ZPRACOVÁNÍ CSV
+        // --------------------------------
 
         const rows = csv
             .trim()
@@ -489,23 +625,27 @@ async function loadMenuCarousel() {
             .slice(1);
 
 
+        // --------------------------------
+        // ODSTRANIT STARÉ SLIDES
+        // --------------------------------
 
-        const carousel =
-            document.getElementById("menuCarousel");
+        carousel
+            .querySelectorAll(".menu-slide")
+            .forEach(slide => {
+
+                slide.remove();
+
+            });
 
 
-        if (!carousel) {
-            console.error("Nenalezen element #menuCarousel");
-            return;
-        }
+        // --------------------------------
+        // VYTVOŘENÍ SLIDES
+        // --------------------------------
 
-
-        carousel.innerHTML = "";
-
+        const imagePromises = [];
 
 
         rows.forEach(row => {
-
 
             const [
                 fileName,
@@ -516,7 +656,6 @@ async function loadMenuCarousel() {
                 .map(item => item.trim());
 
 
-
             console.log(
                 "Carousel položka:",
                 fileName,
@@ -525,10 +664,12 @@ async function loadMenuCarousel() {
             );
 
 
+            // --------------------------------
+            // POUZE AKTIVNÍ OBRÁZKY
+            // --------------------------------
 
             if (
-                active?.toLowerCase() === "ano"
-                &&
+                active?.toLowerCase() === "ano" &&
                 fileId
             ) {
 
@@ -537,38 +678,112 @@ async function loadMenuCarousel() {
                     `https://drive.google.com/thumbnail?id=${fileId}&sz=w1200`;
 
 
+                // --------------------------------
+                // SLIDE
+                // --------------------------------
 
                 const slide =
                     document.createElement("div");
-
 
                 slide.className =
                     "menu-slide";
 
 
+                // --------------------------------
+                // IMAGE
+                // --------------------------------
 
                 const image =
                     document.createElement("img");
 
 
-                image.src = imageUrl;
+                image.src =
+                    imageUrl;
+
 
                 image.alt =
                     fileName || "Menu";
 
 
+                // --------------------------------
+                // POČKAT NA OBRÁZEK
+                // --------------------------------
+
+                const imagePromise =
+                    new Promise((resolve, reject) => {
+
+
+                        image.onload =
+                            () => {
+
+                                resolve();
+
+                            };
+
+
+                        image.onerror =
+                            () => {
+
+                                reject(
+                                    new Error(
+                                        `Nepodařilo se načíst obrázek: ${fileName || fileId}`
+                                    )
+                                );
+
+                            };
+
+                    });
+
+
+                imagePromises.push(
+                    imagePromise
+                );
+
 
                 slide.appendChild(image);
 
-
                 carousel.appendChild(slide);
-
 
             }
 
-
         });
 
+
+        // --------------------------------
+        // POČKAT NA VŠECHNY OBRÁZKY
+        // --------------------------------
+
+        await Promise.all(
+            imagePromises
+        );
+
+
+        // --------------------------------
+        // KONTROLA, JESTLI EXISTUJE MENU
+        // --------------------------------
+
+        const slides =
+            carousel.querySelectorAll(
+                ".menu-slide"
+            );
+
+
+        if (slides.length === 0) {
+
+            throw new Error(
+                "Nebyly nalezeny žádné aktivní položky menu."
+            );
+
+        }
+
+
+        // --------------------------------
+        // SKRÝT LOADING
+        // --------------------------------
+
+        if (loading) {
+            loading.style.display = "none";
+        }
 
 
         console.log(
@@ -576,8 +791,19 @@ async function loadMenuCarousel() {
         );
 
 
+        // --------------------------------
+        // INICIALIZACE CAROUSELU
+        // --------------------------------
+
+        initMenuCarouselControls();
+
+
     } catch (error) {
 
+
+        // --------------------------------
+        // LOG CHYBY
+        // --------------------------------
 
         console.error(
             "Chyba při načítání menu carouselu:",
@@ -585,9 +811,57 @@ async function loadMenuCarousel() {
         );
 
 
+        // --------------------------------
+        // SKRÝT SPINNER
+        // --------------------------------
+
+        if (spinner) {
+            spinner.style.display = "none";
+        }
+
+        if (loadingText) {
+            loadingText.style.display = "none";
+        }
+
+
+        // --------------------------------
+        // ZOBRAZIT ERROR
+        // --------------------------------
+
+        if (loading) {
+            loading.style.display = "flex";
+        }
+
+        if (errorMessage) {
+            errorMessage.style.display = "flex";
+        }
+
     }
 
 }
+
+
+// ====================================
+// RETRY BUTTON
+// ====================================
+
+const menuRetry =
+    document.getElementById("menuRetry");
+
+
+if (menuRetry) {
+
+    menuRetry.addEventListener(
+        "click",
+        () => {
+
+            loadMenuCarousel();
+
+        }
+    );
+
+}
+
 
 // ====================================
 // MENU CAROUSEL CONTROLS
@@ -595,24 +869,83 @@ async function loadMenuCarousel() {
 
 function initMenuCarouselControls() {
 
-    const wrapper = document.querySelector(".menu-carousel-wrapper");
+    const wrapper =
+        document.querySelector(".menu-carousel-wrapper");
 
     if (!wrapper) {
         console.error("Nenalezen menu carousel wrapper");
         return;
     }
 
+    const carousel =
+        wrapper.querySelector(".menu-carousel");
 
-    const carousel = wrapper.querySelector(".menu-carousel");
-    const prevButton = wrapper.querySelector(".carousel-prev");
-    const nextButton = wrapper.querySelector(".carousel-next");
+    const prevButton =
+        wrapper.querySelector(".carousel-prev");
+
+    const nextButton =
+        wrapper.querySelector(".carousel-next");
+
+    const dotsContainer =
+        document.querySelector(".carousel-dots");
 
 
     if (!carousel || !prevButton || !nextButton) {
-        console.error("Carousel tlačítka nebo obsah nenalezen");
+        console.error(
+            "Carousel tlačítka nebo obsah nenalezen"
+        );
         return;
     }
 
+
+    // ====================================
+    // VYTVOŘENÍ TEČEK
+    // ====================================
+
+    const slides =
+        carousel.querySelectorAll(".menu-slide");
+
+    if (dotsContainer) {
+
+        dotsContainer.innerHTML = "";
+
+        slides.forEach((slide, index) => {
+
+            const dot =
+                document.createElement("button");
+
+            dot.className = "carousel-dot";
+
+            dot.type = "button";
+
+            dot.setAttribute(
+                "aria-label",
+                `Zobrazit menu ${index + 1}`
+            );
+
+            if (index === 0) {
+                dot.classList.add("active");
+            }
+
+            dot.addEventListener("click", () => {
+
+                carousel.scrollTo({
+                    left: index * carousel.clientWidth,
+                    behavior: "smooth"
+                });
+
+            });
+
+            dotsContainer.appendChild(dot);
+
+        });
+
+    }
+
+
+    // ====================================
+    // NEXT
+    // ====================================
 
     nextButton.addEventListener("click", () => {
 
@@ -624,6 +957,10 @@ function initMenuCarouselControls() {
     });
 
 
+    // ====================================
+    // PREVIOUS
+    // ====================================
+
     prevButton.addEventListener("click", () => {
 
         carousel.scrollBy({
@@ -634,7 +971,39 @@ function initMenuCarouselControls() {
     });
 
 
-    console.log("Menu carousel ovládání aktivní");
+    // ====================================
+    // AKTIVNÍ TEČKA PŘI SCROLLU
+    // ====================================
+
+    carousel.addEventListener("scroll", () => {
+
+        if (!dotsContainer) return;
+
+        const dots =
+            dotsContainer.querySelectorAll(".carousel-dot");
+
+        if (!dots.length) return;
+
+        const index =
+            Math.round(
+                carousel.scrollLeft / carousel.clientWidth
+            );
+
+        dots.forEach((dot, dotIndex) => {
+
+            dot.classList.toggle(
+                "active",
+                dotIndex === index
+            );
+
+        });
+
+    });
+
+
+    console.log(
+        "Menu carousel ovládání aktivní"
+    );
 
 }
 
@@ -745,6 +1114,8 @@ document.addEventListener(
         scheduleMenuSwitch();
 
         initBurgerMenu();
+
+        initMenuNavigation();
 
     }
 );

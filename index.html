@@ -259,13 +259,36 @@
     <div class="menu-container">
 
         <h2>Stálé Menu</h2>
+
+    <div class="menu-loading" id="menuLoading">
+
+    <div class="menu-spinner"></div>
+
+    <span class="menu-loading-text">
+        Načítám menu…
+    </span>
+
+    <div class="menu-error" id="menuError">
+
+        <span>
+            Menu se nepodařilo načíst.
+        </span>
+
+        <button class="btn btn-tonal" id="menuRetry">
+            Zkusit znovu
+        </button>
+
+    </div>
+
+</div>
+
         <div class="menu-carousel-wrapper">
 
             <button class="carousel-button carousel-prev" aria-label="Předchozí menu">
             &lsaquo;
             </button>
 
-
+            
             <div class="menu-carousel" id="menuCarousel">
                 <!-- 
                     Sem JavaScript načte obrázky z Google Sheets
@@ -294,7 +317,7 @@
 
 
     <!-- FOOTER -->
-    <footer class="footer">
+    <footer id="contact" class="footer">
         <div class="footer-content">
             <!-- 4 COLUMNS -->
             <div class="footer-grid">
