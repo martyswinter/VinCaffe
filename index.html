@@ -18,7 +18,7 @@
             <ul class="nav-links">
                 <li><button class="btn btn-tonal">Menu</button></li>
                 <li><button class="btn btn-outlined">Kontakt</button></li>
-                <li><button class="btn btn-filled">Rezervace</button></li>
+                <li><button class="btn btn-filled" id="bookingButton" type="button">Rezervace</button></li>
             </ul>
             <button class="burger-menu">
                 <span></span>
@@ -373,23 +373,202 @@
         </div>
     </footer>
 
-    <!-- DIALOG PRO OBJEDNÁVKU -->
-    <dialog id="booking-dialog" class="dialog">
-        <div class="dialog-content">
-            <button class="close-btn">&times;</button>
-            <h2>Objednat si stůl</h2>
+    <!-- ====================================
+         BOOKING MODAL
+         ==================================== -->
+    
+    <div class="booking-modal" id="bookingModal" aria-hidden="true">
+    
+        <div class="booking-modal-backdrop"></div>
+    
+        <div class="booking-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="bookingModalTitle">
+    
+            <!-- HEADER -->
+            <div class="booking-modal-header">
+    
+                <h3 id="bookingModalTitle">
+                    Online Rezervace
+                </h3>
+    
+                <button class="btn btn-text modal-close" id="bookingModalClose" type="button" aria-label="Zavřít rezervaci">
+                    ×
+                </button>
+    
+            </div>
+    
+    
+            <!-- FORM -->
             <form id="booking-form">
-                <input type="text" placeholder="Jméno" required>
-                <input type="email" placeholder="Email" required>
-                <input type="date" required>
-                <input type="number" placeholder="Počet osob" min="1" required>
-                <button type="submit" class="btn btn-filled">Odeslat objednávku</button>
+    
+                <div class="booking-form-grid">
+    
+                    <!-- LEVÝ SLOUPEC -->
+                    <div class="booking-column">
+    
+                        <div class="booking-field">
+    
+                            <label for="bookingDate">
+                                Vyber datum*
+                            </label>
+    
+                            <input type="date" id="bookingDate" name="date" required>
+    
+                        </div>
+    
+    
+                        <div class="booking-meta">
+    
+                            <div class="booking-field">
+    
+                                <label for="bookingTime">
+                                    Vyber čas*
+                                </label>
+    
+                                <input type="time" id="bookingTime" name="time" required>
+    
+                            </div>
+    
+    
+                            <div class="booking-field">
+    
+                                <label for="bookingGuests">
+                                    Kolik vás bude?*
+                                </label>
+    
+                                <input type="number" id="bookingGuests" name="guests" min="1" value="2" required>
+    
+                            </div>
+    
+                        </div>
+    
+                    </div>
+    
+    
+                    <!-- PRAVÝ SLOUPEC -->
+                    <div class="booking-column">
+    
+                        <div class="booking-field">
+    
+                            <label for="bookingNote">
+                                Chceš nám něco upřesnit?
+                            </label>
+    
+                            <textarea id="bookingNote" name="note" rows="4"
+                                placeholder="Máte speciální požadavek na stůl, uvnitř nebo venku..."></textarea>
+    
+                        </div>
+    
+    
+                        <h3>Údaje o vás</h3>
+    
+    
+                        <div class="booking-field">
+    
+                            <label for="bookingName">
+                                Rezervace na jméno*
+                            </label>
+    
+                            <input type="text" id="bookingName" name="name" autocomplete="name" placeholder="Jan Novák"
+                                required>
+    
+                            <span class="field-error">
+                                Řekněte nám prosím, na koho rezervaci napíšeme?
+                            </span>
+    
+                        </div>
+    
+    
+                        <div class="booking-field">
+    
+                            <label for="bookingEmail">
+                                E-mail
+                            </label>
+    
+                            <input type="email" id="bookingEmail" name="email" autocomplete="email"
+                                placeholder="JanNovak@seznam.cz" pattern="^[^\s@]+@[^\s@]+\.[^\s@]{2,}$">
+    
+                            <span class="field-error">
+                                Zadejte platný e-mail
+                            </span>
+    
+                        </div>
+    
+    
+                        <div class="booking-field">
+    
+                            <label for="bookingPhone">
+                                Telefonní číslo*
+                            </label>
+    
+                            <input type="tel" id="bookingPhone" name="phone" autocomplete="tel" placeholder="+420123456789"
+                                pattern="^\+[1-9][0-9]{7,14}$" required>
+    
+                            <span class="field-error">
+                                Zadejte platné telefonní číslo ve správném formátu bez mezer, např. +420123456789
+                            </span>
+    
+                        </div>
+    
+                    </div>
+    
+                </div>
+    
+    
+                <!-- BUTTONS -->
+                <div class="booking-actions">
+    
+                    <button class="btn btn-outlined" id="bookingCancel" type="button">
+                        Zrušit
+                    </button>
+    
+                    <button class="btn btn-filled" type="submit">
+                        Odeslat rezervaci
+                    </button>
+    
+                </div>
+    
             </form>
+    
+    
+            <!-- SUCCESS STATE -->
+            <div class="booking-success" id="bookingSuccess">
+    
+                <div class="booking-success-content">
+    
+                    <h3>
+                        Požadavek na rezervaci byl odeslán!
+                    </h3>
+    
+                    <p>
+                        Potvrzení o vytvoření požadavku na rezervaci vám přijde do mailu,
+                        pokud si ho vyplníte. My se koukneme do rezervační knihy a hned jak
+                        budeme moct, ozveme se.
+                    </p>
+    
+                    <img src="assets/images/single-chair.png" alt="" class="booking-success-image">
+    
+                </div>
+    
+                <div class="booking-success-actions">
+    
+                    <button class="btn btn-outlined" id="bookingSuccessClose" type="button">
+                        Díky a zavřít
+                    </button>
+    
+                </div>
+    
+            </div>
+    
         </div>
-    </dialog>
-
+    
+    </div>
+    
+    
     <script src="js/main.js"></script>
-    <script src="js/booking.js"></script>
+
+
 </body>
+
+
 
 </html>

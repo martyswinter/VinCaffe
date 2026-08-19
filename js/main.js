@@ -1090,7 +1090,273 @@ function initBurgerMenu() {
 
 }
 
+// ====================================
+// BOOKING MODAL
+// ====================================
 
+function initBookingModal() {
+
+    const openButton =
+        document.getElementById("bookingButton");
+
+    const modal =
+        document.getElementById("bookingModal");
+
+    const closeButton =
+        document.getElementById("bookingModalClose");
+
+    const cancelButton =
+        document.getElementById("bookingCancel");
+
+    const backdrop =
+        modal?.querySelector(".booking-modal-backdrop");
+
+    const successCloseButton =
+        document.getElementById("bookingSuccessClose");
+
+
+    if (!openButton || !modal || !closeButton) {
+
+        console.error(
+            "Booking modal elementy nebyly nalezeny."
+        );
+
+        return;
+    }
+
+
+    // OTEVŘENÍ MODALU
+
+    function openModal() {
+
+        modal.classList.add("open");
+
+        modal.setAttribute(
+            "aria-hidden",
+            "false"
+        );
+
+        // zabrání scrollování stránky pod modalem
+        document.body.style.overflow = "hidden";
+
+        // přesune focus na zavírací tlačítko
+        closeButton.focus();
+    }
+
+
+    // ZAVŘENÍ MODALU
+
+    function closeModal() {
+
+        modal.classList.remove("open");
+
+        modal.setAttribute(
+            "aria-hidden",
+            "true"
+        );
+
+        document.body.style.overflow = "";
+
+        const bookingForm =
+            document.getElementById("booking-form");
+
+        const bookingSuccess =
+            document.getElementById("bookingSuccess");
+
+        if (bookingSuccess) {
+            bookingSuccess.classList.remove("active");
+        }
+
+        if (bookingForm) {
+            bookingForm.style.display = "";
+            bookingForm.reset();
+
+            bookingForm
+                .querySelectorAll(".booking-field.has-error")
+                .forEach(
+                    field => field.classList.remove("has-error")
+                );
+        }
+
+        openButton.focus();
+    }
+
+
+    // KLIK NA REZERVACE
+
+    openButton.addEventListener(
+        "click",
+        openModal
+    );
+
+
+    // KŘÍŽEK
+
+    closeButton.addEventListener(
+        "click",
+        closeModal
+    );
+
+    // ====================================
+    // VALIDACE INPUTŮ - MODAL REZERVACE
+    // ====================================
+
+    const bookingForm = document.getElementById("booking-form");
+
+    const bookingName = document.getElementById("bookingName");
+    const bookingEmail = document.getElementById("bookingEmail");
+    const bookingPhone = document.getElementById("bookingPhone");
+
+    const bookingSuccess = document.getElementById("bookingSuccess");
+    const bookingSuccessClose = document.getElementById("bookingSuccessClose");
+
+
+    // JMÉNO
+    function validateName() {
+
+        const field = bookingName.closest(".booking-field");
+
+        if (bookingName.validity.valid) {
+            field.classList.remove("has-error");
+            return true;
+        }
+
+        field.classList.add("has-error");
+        return false;
+    }
+
+
+    // EMAIL
+    function validateEmail() {
+
+        const field = bookingEmail.closest(".booking-field");
+
+        if (bookingEmail.validity.valid) {
+            field.classList.remove("has-error");
+            return true;
+        }
+
+        field.classList.add("has-error");
+        return false;
+    }
+
+
+    // TELEFON
+    function validatePhone() {
+
+        const field = bookingPhone.closest(".booking-field");
+
+        if (bookingPhone.validity.valid) {
+            field.classList.remove("has-error");
+            return true;
+        }
+
+        field.classList.add("has-error");
+        return false;
+    }
+
+
+    // VALIDACE PO OPUŠTĚNÍ POLE
+    bookingName.addEventListener("blur", validateName);
+    bookingEmail.addEventListener("blur", validateEmail);
+    bookingPhone.addEventListener("blur", validatePhone);
+
+
+    // VALIDACE PŘI ODESLÁNÍ + SUCCESS STATE
+    bookingForm.addEventListener("submit", event => {
+
+        event.preventDefault();
+
+        const nameValid = validateName();
+        const emailValid = validateEmail();
+        const phoneValid = validatePhone();
+
+        if (!nameValid || !emailValid || !phoneValid) {
+
+            if (!nameValid) {
+                bookingName.focus();
+                return;
+            }
+
+            if (!emailValid) {
+                bookingEmail.focus();
+                return;
+            }
+
+            if (!phoneValid) {
+                bookingPhone.focus();
+                return;
+            }
+        }
+
+        // FORMULÁŘ JE VALIDNÍ
+        bookingForm.style.display = "none";
+        bookingSuccess.classList.add("active");
+
+    });
+
+    // TLAČÍTKO ZRUŠIT
+
+    if (cancelButton) {
+
+        cancelButton.addEventListener(
+            "click",
+            closeModal
+        );
+
+    }
+
+    // ZAVŘENÍ PO POTVRZENÍ
+
+    if (successCloseButton) {
+
+        successCloseButton.addEventListener(
+            "click",
+            () => {
+
+                closeModal();
+
+                bookingSuccess.classList.remove("active");
+                bookingForm.style.display = "";
+
+                bookingForm.reset();
+
+            }
+        );
+
+    }
+
+    // KLIK MIMO MODAL
+
+    if (backdrop) {
+
+        backdrop.addEventListener(
+            "click",
+            closeModal
+        );
+
+    }
+
+
+    // ESC
+
+    document.addEventListener(
+        "keydown",
+        event => {
+
+            if (
+                event.key === "Escape" &&
+                modal.classList.contains("open")
+            ) {
+
+                closeModal();
+
+            }
+
+        }
+    );
+
+}
 
 
 // ====================================
@@ -1116,6 +1382,8 @@ document.addEventListener(
         initBurgerMenu();
 
         initMenuNavigation();
+
+        initBookingModal();
 
     }
 );
