@@ -85,9 +85,11 @@ async function loadMenuFromSheets() {
         const response = await fetchWithRetry(CSV_URL);
         const csvText = await response.text();
 
-        const lines = csvText.trim().split("\n");
+        const rows =
+            parseCSV(csvText);
 
-        const daysData = lines.slice(1);
+        const daysData =
+            rows.slice(1);
 
         const daysMap = {
             "Pondělí": "po",
@@ -98,7 +100,7 @@ async function loadMenuFromSheets() {
         };
 
 
-        daysData.forEach(line => {
+        daysData.forEach(row => {
 
             const [
                 den,
@@ -106,7 +108,7 @@ async function loadMenuFromSheets() {
                 polEvka,
                 jidlo1,
                 jidlo2
-            ] = line.split(",").map(item => item.trim());
+            ] = row;
 
 
             if (!daysMap[den]) return;
@@ -183,27 +185,26 @@ async function loadBrunchFromSheets() {
         const csvText =
             await response.text();
 
-        const lines =
-            csvText.trim().split("\n");
+
+        // ====================================
+        // CSV PARSING
+        // zvládne čárky i zalomení řádků
+        // ====================================
+
+        const rows =
+            parseCSV(csvText);
 
 
-        // přeskočíme první řádek s názvem Sobota & Neděle
+        // přeskočíme první řádek s názvem
+        // Sobota & Neděle
         const brunchItems =
-            lines.slice(1, 4);
+            rows.slice(1, 4);
 
 
-        brunchItems.forEach((line, index) => {
-
-            // rozdělíme pouze na první čárce
-            const parts =
-                line.split(/,(.+)/);
+        brunchItems.forEach((row, index) => {
 
             const text =
-                parts[1]
-                    ? parts[1]
-                        .replace(/^"|"$/g, "")
-                        .trim()
-                    : "";
+                row[1]?.trim() || "";
 
 
             const element =
@@ -213,7 +214,10 @@ async function loadBrunchFromSheets() {
 
 
             if (element) {
-                element.textContent = text;
+
+                element.textContent =
+                    text;
+
             }
 
         });
@@ -1428,47 +1432,102 @@ function initBookingModal() {
 }
 
 // ====================================
-// SIMPLE CSV PARSER
-// zvládne čárky uvnitř uvozovek
+// CSV PARSER
+// zvládne čárky i zalomení řádků
+// uvnitř buněk v uvozovkách
 // ====================================
 
-function parseCSVLine(line) {
+function parseCSV(csvText) {
 
-    const result = [];
+    const rows = [];
 
-    let current = "";
+    let row = [];
+    let field = "";
     let insideQuotes = false;
 
-    for (let i = 0; i < line.length; i++) {
+    for (let i = 0; i < csvText.length; i++) {
 
-        const char = line[i];
-        const nextChar = line[i + 1];
+        const char = csvText[i];
+        const nextChar = csvText[i + 1];
 
+
+        // UVOZOVKY
         if (char === '"') {
 
-            // dvojité uvozovky uvnitř textu
+            // zdvojené uvozovky uvnitř hodnoty
             if (insideQuotes && nextChar === '"') {
-                current += '"';
+
+                field += '"';
                 i++;
+
             } else {
+
                 insideQuotes = !insideQuotes;
+
             }
 
-        } else if (char === "," && !insideQuotes) {
+        }
 
-            result.push(current.trim());
-            current = "";
 
-        } else {
+        // ČÁRKA = nový sloupec
+        else if (char === "," && !insideQuotes) {
 
-            current += char;
+            row.push(field.trim());
+            field = "";
 
         }
+
+
+        // NOVÝ ŘÁDEK = nový řádek tabulky
+        else if (
+            (char === "\n" || char === "\r") &&
+            !insideQuotes
+        ) {
+
+            // Windows CRLF
+            if (char === "\r" && nextChar === "\n") {
+                i++;
+            }
+
+            row.push(field.trim());
+            field = "";
+
+            if (
+                row.some(value => value !== "")
+            ) {
+                rows.push(row);
+            }
+
+            row = [];
+
+        }
+
+
+        // OBSAH BUŇKY
+        else {
+
+            field += char;
+
+        }
+
     }
 
-    result.push(current.trim());
 
-    return result;
+    // POSLEDNÍ HODNOTA
+    if (field !== "" || row.length > 0) {
+
+        row.push(field.trim());
+
+        if (
+            row.some(value => value !== "")
+        ) {
+            rows.push(row);
+        }
+
+    }
+
+
+    return rows;
 }
 
 

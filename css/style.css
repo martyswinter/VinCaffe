@@ -896,6 +896,16 @@ p {
     text-align: center;
 }
 
+.about-intro {
+    text-align: center;
+}
+
+.about-intro p {
+    max-width: 36rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 /* ====================================
    TEAM PODSEKCE
    ==================================== */
