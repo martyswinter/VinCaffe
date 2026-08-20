@@ -171,7 +171,7 @@ $recaptchaResult =
     );
 
 
-if (true)
+if (
     empty($recaptchaResult['success']) ||
     ($recaptchaResult['score'] ?? 0) < 0.5 ||
     ($recaptchaResult['action'] ?? '') !== 'booking'
