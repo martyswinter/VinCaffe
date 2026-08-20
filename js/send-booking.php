@@ -7,7 +7,7 @@ header('Content-Type: application/json; charset=utf-8');
 // KONFIGURACE
 // ====================================
 
-$recaptchaSecret = 'TVUJ_SECRET_KEY';
+$recaptchaSecret = '6LfGVo4tAAAAAKNcrQ_A7kVkd1KHCNHUOx2R2yNp';
 
 $recipientEmail = 'info@vincaffe.cz';
 
