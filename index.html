@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 
+<script src="https://www.google.com/recaptcha/api.js?render=6LfGVo4tAAAAAI7NFKP_dm9ECaaM0hG5uUfDMp_7">
+</script>
+
 <body>
     <!-- STICKY MENU -->
     <nav class="navbar">
@@ -185,8 +188,8 @@
 <!-- O NÁS SEKCE -->
 <section id="about" class="about-section">
     <h2>O nás</h2>
-    <p>Naše kavárna je víc než jen místo k pití kávy a vína. Je to prostor, kde se setkávají lidé, kde se rodí příběhy a
-        kde každý den vytváříme atmosféru, která dělá návštěvu nezapomenutelnou.</p>
+    <p>Naše kavárna je víc než jen místo k pití kávy, vína a užívání dobrého jídla. Je to prostor, kde se setkávají lidé, kde
+    se rodí příběhy a kde každý den vytváříme atmosféru, která dělá návštěvu nezapomenutelnou.</p>
 
     <!-- PODSEKCE: TÝM -->
     <section id="team" class="team-section">
@@ -197,9 +200,8 @@
                 <img src="assets/images/Profile-Kaja.jpg" alt="Karolína" class="team-card-image">
                 <div class="team-card-text">
                     <h4>Karolína</h4>
-                    <p>Nejčastěji maká v kuchyni, ale občas i na baru. Je to druhá nejvyšší z nejvyšších a stará se o
-                        to, aby vše šlapalo, jak má, i když občas to šlape jen po jedné noze. Miluje Asii a květiny, a
-                        proto se u nás objevují i asijské recepty a všudypřítomné květiny.</p>
+                    <p>Nejčastěji maká v kuchyni. Je to druhá nejvyšší z nejvyšších a stará se o to, aby vše šlapalo, jak má, i když občas to
+                    šlape jen po jedné noze. Vymyšlí co se bude vařit a jen se modlí, aby to všem chutnalo.</p>
                 </div>
             </div>
 
@@ -207,9 +209,8 @@
                 <img src="assets/images/Profile-Martin.jpg" alt="Martin" class="team-card-image">
                 <div class="team-card-text">
                     <h4>Martin</h4>
-                    <p>Našeho podniku. Jeho kudrnatou hřívu jen tak někdo nepřehlídne. Vína umí doporučit nejlépe z nás
-                        všech a taky proto je má všechny na starost. Pokud se nevíte rady, on Vám pomůže zajisté
-                        nejlépe.</p>
+                    <p>Jeho kudrnatou hřívu jen tak někdo nepřehlídne. Je to nejvyší z nejvyších. Vína umí doporučit nejlépe z nás všech a taky
+                    proto je má všechny na starost. Pokud si nevíte rady, on Vám pomůže zajisté nejlépe.</p>
                 </div>
             </div>
 
@@ -217,9 +218,8 @@
                 <img src="assets/images/Profile-Jirina.jpg" alt="Jiřina" class="team-card-image">
                 <div class="team-card-text">
                     <h4>Jiřina</h4>
-                    <p>Jiřina je vidět tak nějak všude a nikde. Je to nejvyšší z nejvyšších a proto jí tu všichni
-                        posloucháme. Vymýšlí pro Vás hlavně italské dobroty a stará se nejvíc o tu nezábavnou část, a to
-                        je papírování.</p>
+                    <p>Jiřina je vidět tak nějak všude a nikde. Je to třetí nejvyší z nejvyších a pomáhá se vším co je potřeba. Bez ní by nic
+                    nebylo, ani my!</p>
                 </div>
             </div>
         </div>
@@ -230,8 +230,8 @@
         <div class="garden-container">
             <div class="garden-text">
                 <h3>Zahrádka</h3>
-                <p>Pokud to počasí jen dovolí, máme otevřenou zahrádku, kde si můžete odpočinout pod korunami našich
-                    krásných kaštanů a třeba si i něco ugrilovat.</p>
+                <p>Pokud to počasí jen dovolí, máme otevřenou zahrádku, kde si můžete odpočinout pod korunami našich krásných kaštanů ve
+                vnitrobloku, takže v klidu od ruchu velkoměsta a třeba si i něco ugrilovat.</p>
             </div>
             <div class="garden-image">
                 <img src="assets/images/Zahradka_Vnitroblok.png" alt="Zahrádka vnitrobloku">
@@ -247,8 +247,8 @@
             </div>
             <div class="interior-text">
                 <h3>Vnitřní prostory</h3>
-                <p>Naše kavárna je středně veliká. Kolem 35 míst uvnitř. Volit můžete mezi klasickým sezením, např. k
-                    jídlu nebo se vrtnout k našему čtecímu stolku.</p>
+                <p>Naše kavárna je středně veliká. Kolem 35 míst uvnitř. Volit můžete mezi klasickým sezením, např. k jídlu nebo se vrtnout
+                k našemu čtecímu stolku a nebo si s námi pokecat u baru.</p>
             </div>
         </div>
     </section>
@@ -387,7 +387,7 @@
                 <div class="footer-column">
                     <h3>Rezervace</h3>
                     <img src="assets/icons/coffee-bean.svg" alt="" class="footer-icon">
-                    <p>+420775769951<br>info@vincaffe.cz</p>
+                    <p>+420776729486<br>info@vincaffe.cz</p>
                 </div>
                 <div class="footer-column">
                     <h3>Sledujte nás</h3>
@@ -442,6 +442,8 @@
     
                     <!-- LEVÝ SLOUPEC -->
                     <div class="booking-column">
+
+                        <h4>Kdy k nám zavítáte?</h4>
     
                         <div class="booking-field">
     
@@ -478,6 +480,17 @@
                             </div>
     
                         </div>
+
+                        <div class="booking-field">
+                        
+                            <label for="bookingNote">
+                                Chceš nám něco upřesnit?
+                            </label>
+                        
+                            <textarea id="bookingNote" name="note" rows="4"
+                                placeholder="Máte speciální požadavek na stůl, uvnitř nebo venku..."></textarea>
+                        
+                        </div>
     
                     </div>
     
@@ -485,20 +498,7 @@
                     <!-- PRAVÝ SLOUPEC -->
                     <div class="booking-column">
     
-                        <div class="booking-field">
-    
-                            <label for="bookingNote">
-                                Chceš nám něco upřesnit?
-                            </label>
-    
-                            <textarea id="bookingNote" name="note" rows="4"
-                                placeholder="Máte speciální požadavek na stůl, uvnitř nebo venku..."></textarea>
-    
-                        </div>
-    
-    
-                        <h3>Údaje o vás</h3>
-    
+                        <h4>Údaje o vás</h4>
     
                         <div class="booking-field">
     
@@ -551,7 +551,8 @@
     
                 </div>
     
-    
+                <input type="hidden" id="recaptchaToken" name="recaptcha_token">
+
                 <!-- BUTTONS -->
                 <div class="booking-actions">
     
@@ -565,8 +566,7 @@
     
                 </div>
     
-            </form>
-    
+            </form>    
     
             <!-- SUCCESS STATE -->
             <div class="booking-success" id="bookingSuccess">

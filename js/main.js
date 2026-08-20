@@ -1226,7 +1226,6 @@ function initBookingModal() {
     const bookingPhone = document.getElementById("bookingPhone");
 
     const bookingSuccess = document.getElementById("bookingSuccess");
-    const bookingSuccessClose = document.getElementById("bookingSuccessClose");
 
 
     // JMÉNO
@@ -1281,7 +1280,7 @@ function initBookingModal() {
 
 
     // VALIDACE PŘI ODESLÁNÍ + SUCCESS STATE
-    bookingForm.addEventListener("submit", event => {
+    bookingForm.addEventListener("submit", async event => {
 
         event.preventDefault();
 
@@ -1307,9 +1306,70 @@ function initBookingModal() {
             }
         }
 
+        // ====================================
         // FORMULÁŘ JE VALIDNÍ
-        bookingForm.style.display = "none";
-        bookingSuccess.classList.add("active");
+        // RECAPTCHA + ODESLÁNÍ NA SERVER
+        // ====================================
+
+        try {
+
+            const token = await grecaptcha.execute(
+                "6LfGVo4tAAAAAI7NFKP_dm9ECaaM0hG5uUfDMp_7",
+                {
+                    action: "booking"
+                }
+            );
+
+            const recaptchaToken =
+                document.getElementById("recaptchaToken");
+
+            if (!recaptchaToken) {
+                throw new Error("Nenalezeno pole recaptchaToken.");
+            }
+
+            recaptchaToken.value = token;
+
+
+            const formData =
+                new FormData(bookingForm);
+
+
+            const response =
+                await fetch("send-booking.php", {
+                    method: "POST",
+                    body: formData
+                });
+
+
+            const result =
+                await response.json();
+
+
+            if (!response.ok || !result.success) {
+
+                throw new Error(
+                    result.message ||
+                    "Rezervaci se nepodařilo odeslat."
+                );
+            }
+
+
+            // SUCCESS
+            bookingForm.style.display = "none";
+            bookingSuccess.classList.add("active");
+
+
+        } catch (error) {
+
+            console.error(
+                "Chyba při odesílání rezervace:",
+                error
+            );
+
+            alert(
+                "Rezervaci se nepodařilo odeslat. Zkuste to prosím znovu."
+            );
+        }
 
     });
 
@@ -1324,22 +1384,13 @@ function initBookingModal() {
 
     }
 
-    // ZAVŘENÍ PO POTVRZENÍ
+    // ZAVŘENÍ PO ÚSPĚŠNÉM ODESLÁNÍ
 
     if (successCloseButton) {
 
         successCloseButton.addEventListener(
             "click",
-            () => {
-
-                closeModal();
-
-                bookingSuccess.classList.remove("active");
-                bookingForm.style.display = "";
-
-                bookingForm.reset();
-
-            }
+            closeModal
         );
 
     }
@@ -1572,6 +1623,8 @@ async function loadEventsFromSheets() {
     }
 }
 
+
+
 // ====================================
 // INITIALIZATION
 // ====================================
@@ -1580,34 +1633,55 @@ document.addEventListener(
     "DOMContentLoaded",
     async () => {
 
-        // nejdřív rozhodne, které menu zobrazit
+        // ====================================
+        // INTERAKTIVNÍ PRVKY HNED
+        // ====================================
+
+        initBurgerMenu();
+        initMenuNavigation();
+        initBookingModal();
+        initMenuCarouselControls();
+
+
+        // ====================================
+        // MENU - ROZHODNUTÍ CO ZOBRAZIT
+        // ====================================
+
         updateVisibleMenu();
 
-        // načte pouze aktivní týdenní / víkendové menu
+
+        // ====================================
+        // DATA Z GOOGLE SHEETS
+        // ====================================
+
         await loadActiveMenu();
+
 
         // malá prodleva, aby Google nedostal
         // více požadavků současně
+
         await new Promise(resolve =>
             setTimeout(resolve, 500)
         );
 
-        // stálé menu z Google Drive (carousel)
-        // await loadMenuCarousel();
-        
-        // stále menu z ftp složky (carousel)
-        initMenuCarouselControls();
 
-        // načte akce z Google Sheets
+        // stálé menu z Google Drive
+        // momentálně vypnuto
+
+        // await loadMenuCarousel();
+
+
+        // akce z Google Sheets
+
         await loadEventsFromSheets();
 
-        // automatické aktualizace
+
+        // ====================================
+        // AUTOMATICKÉ AKTUALIZACE
+        // ====================================
+
         scheduleMenuLoad();
         scheduleMenuSwitch();
 
-        // ostatní části webu
-        initBurgerMenu();
-        initMenuNavigation();
-        initBookingModal();
     }
 );
