@@ -7,9 +7,9 @@ header('Content-Type: application/json; charset=utf-8');
 // KONFIGURACE
 // ====================================
 
-$recaptchaSecret = '6LfGVo4tAAAAAKNcrQ_A7kVkd1KHCNHUOx2R2yNp';
+require __DIR__ . '/config.php';
 
-$recipientEmail = 'info@vincaffe.cz';
+$recipientEmail = 'martyswinter@gmail.com';
 
 
 // ====================================
