@@ -254,78 +254,116 @@
     </section>
 </section>
 
-<!-- MENU CAROUSEL -->
+<!-- ====================================
+     STÁLÉ MENU
+     ==================================== -->
+
 <section id="menu-carousel-section" class="menu-section">
+
     <div class="menu-container">
 
         <h2>Stálé Menu</h2>
 
-    <div class="menu-loading" id="menuLoading">
 
-    <div class="menu-spinner"></div>
-
-    <span class="menu-loading-text">
-        Načítám menu…
-    </span>
-
-    <div class="menu-error" id="menuError">
-
-        <span>
-            Menu se nepodařilo načíst.
-        </span>
-
-        <button class="btn btn-tonal" id="menuRetry">
-            Zkusit znovu
-        </button>
-
-    </div>
-
-</div>
+        <!-- ====================================
+             MENU CAROUSEL
+             ==================================== -->
 
         <div class="menu-carousel-wrapper">
 
-            <button class="carousel-button carousel-prev" aria-label="Předchozí menu">
-            &lsaquo;
+            <button class="carousel-button carousel-prev" type="button" aria-label="Předchozí menu">
+                &lsaquo;
             </button>
 
-            
+
             <div class="menu-carousel" id="menuCarousel">
-                <!-- 
-                    Sem JavaScript načte obrázky z Google Sheets
-                    například:
 
-                    <div class="menu-slide">
-                        <img src="..." alt="Menu">
-                    </div>
+                <div class="menu-slide">
+                    <img src="assets/menu/page1_cz.png" alt="Stálé menu – strana 1">
+                </div>
 
-                -->
+                <div class="menu-slide">
+                    <img src="assets/menu/page2_cz.png" alt="Stálé menu – strana 2">
+                </div>
+
+                <div class="menu-slide">
+                    <img src="assets/menu/page3_cz.png" alt="Stálé menu – strana 3">
+                </div>
+
+                <div class="menu-slide">
+                    <img src="assets/menu/page4_cz.png" alt="Stálé menu – strana 4">
+                </div>
+
+                <div class="menu-slide">
+                    <img src="assets/menu/page5_cz.png" alt="Stálé menu – strana 5">
+                </div>
+
+                <div class="menu-slide">
+                    <img src="assets/menu/page6_cz.png" alt="Stálé menu – strana 6">
+                </div>
+
             </div>
 
 
-            <button class="carousel-button carousel-next" aria-label="Další menu">
-                    &rsaquo;
+            <button class="carousel-button carousel-next" type="button" aria-label="Další menu">
+                &rsaquo;
             </button>
 
         </div>
 
-        <div class="carousel-dots" id="carouselDots">
-            <!-- JavaScript vytvoří indikátory -->
+
+        <!-- ====================================
+             CAROUSEL DOTS
+             ==================================== -->
+
+        <div class="carousel-dots" id="carouselDots"></div>
+
+
+        <!-- ====================================
+             DOWNLOAD MENU
+             ==================================== -->
+
+        <div class="menu-download">
+
+            <a class="btn btn-text menu-download-button"
+                href="https://drive.google.com/uc?export=download&id=10wlExK0Z0NoaUtsnguZmBqHXUR-ydo3p">
+
+                <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 3v12m0 0 5-5m-5 5-5-5M5 19h14" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+
+                Menu.pdf CZ
+
+            </a>
+
+
+            <a class="btn btn-text menu-download-button"
+                href="https://drive.google.com/uc?export=download&id=1Kay1j1n7L8gsVfuRvVAnaF7sYy3u2zYl">
+
+                <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 3v12m0 0 5-5m-5 5-5-5M5 19h14" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+
+                Menu.pdf EN
+
+            </a>
+
         </div>
 
     </div>
+
 </section>
 
-    <!-- AKCE -->
+<!-- AKCE -->
 <section class="events-section">
 
     <div class="events-container">
 
         <h2>Chystáme pro vás</h2>
 
-        <h3>Mexický večer</h3>
-        <p>
-            Text první akce...
-        </p>
+        <div id="eventsList"></div>
 
     </div>
 

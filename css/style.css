@@ -12,11 +12,12 @@
 :root {
     /* BARVY */
     --Title-color: #846B11;
-    --Body-text-color: #121212;
+    --Body-text-color: #272727;
     --Background-color: #FFFFFF;
     --Accent-color: #D946A6;
     --Border-color: #E0E0E0;
     --Primary-green: #2A5B36;
+    --Secondary-text-color: #6B7280;
     
     /* FONTY */
     --font-heading: "Special Elite", serif;
@@ -507,7 +508,7 @@ h3 {
     font-size: 1.75rem;
     font-weight: 400;
     line-height: 120%;
-    color: var(--Body-text-color);
+    color: var(--Title-color);
     margin-top: 1rem;
     margin-bottom: 0.75rem;
 }
@@ -518,7 +519,7 @@ h4 {
     font-weight: 400;
     line-height: 120%;
     letter-spacing: 0.1125rem;
-    color: var(--Body-text-color);
+    color: var(--Title-color);
     margin-top: 0.75rem;
     margin-bottom: 0.5rem;
 }
@@ -702,6 +703,7 @@ p {
     padding: 2rem 2rem;
     background-color: var(--Background-color);
     width: 100%;
+    text-align: center;
 }
 
 .menu-container {
@@ -839,18 +841,22 @@ p {
 }
 
 /* ====================================
-   O nás Sekce
+   O NÁS SEKCE
    ==================================== */
+
 .about-section {
-    padding: 2ch 2rem;
+    padding: 2rem 2rem;
     background-color: #FAFAFA;
     width: 100%;
+
+    display: flex;
+    flex-direction: column;
     align-items: center;
+    gap: 2rem;
 }
 
 .about-section>p {
     max-width: 36rem;
-    padding-bottom: 2rem;
     margin-left: auto;
     margin-right: auto;
     text-align: center;
@@ -1224,6 +1230,10 @@ TEAM GRID - DESKTOP
     margin: 0 auto;
 }
 
+#eventsList {
+    width: 100%;
+}
+
 
 /* HLAVNÍ NADPIS */
 
@@ -1239,16 +1249,25 @@ TEAM GRID - DESKTOP
 }
 
 
-/* TEXT */
+/* TEXT BĚŽNÝCH AKCÍ */
 
 .events-container p {
     padding-bottom: 2rem;
     margin-left: 0;
     margin-right: 0;
-
     text-align: left;
 }
 
+
+/* FALLBACK TEXT */
+
+.events-container .events-empty {
+    width: 100%;
+    margin: 0;
+    padding-bottom: 0;
+    text-align: center;
+    color: var(--Secondary-text-color);
+}
 
 /* ====================================
    TABLET
@@ -1675,6 +1694,36 @@ MENU CAROUSEL
     }
 
 }
+
+.menu-download {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+
+    margin-top: 2rem;
+}
+
+.menu-download-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0;
+}
+
+@media (max-width: 767px) {
+
+    .menu-download {
+        flex-direction: column;
+        align-items: center;
+    }
+
+}
+
 
 /* ====================================
    FOOTER
