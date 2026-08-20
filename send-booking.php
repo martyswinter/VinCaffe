@@ -1,15 +1,21 @@
 <?php
 
-header('Content-Type: application/json; charset=utf-8');
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 
 // ====================================
-// KONFIGURACE
+// CONFIG
 // ====================================
 
 require __DIR__ . '/config.php';
 
-$recipientEmail = 'martyswinter@gmail.com';
+require __DIR__ . '/PHPMailer/src/Exception.php';
+require __DIR__ . '/PHPMailer/src/PHPMailer.php';
+require __DIR__ . '/PHPMailer/src/SMTP.php';
+
+
+header('Content-Type: application/json; charset=utf-8');
 
 
 // ====================================
@@ -118,10 +124,6 @@ if ($recaptchaToken === '') {
 }
 
 
-$recaptchaUrl =
-    'https://www.google.com/recaptcha/api/siteverify';
-
-
 $recaptchaData =
     http_build_query([
         'secret' => $recaptchaSecret,
@@ -143,7 +145,7 @@ $recaptchaContext =
 
 $recaptchaResponse =
     file_get_contents(
-        $recaptchaUrl,
+        'https://www.google.com/recaptcha/api/siteverify',
         false,
         $recaptchaContext
     );
@@ -187,7 +189,7 @@ if (
 
 
 // ====================================
-// PŘEDMĚT
+// PŘEDMĚT PRO KAVÁRNU
 // ====================================
 
 $subject =
@@ -200,7 +202,7 @@ $subject =
 
 
 // ====================================
-// TĚLO EMAILU
+// TĚLO EMAILU PRO KAVÁRNU
 // ====================================
 
 $message =
@@ -210,53 +212,169 @@ $message =
     . "Počet hostů: " . $guests . "\n\n"
     . "Jméno: " . $name . "\n"
     . "Telefon: " . $phone . "\n"
-    . "E-mail: " . ($email !== '' ? $email : 'neuveden') . "\n\n"
+    . "E-mail: "
+    . ($email !== '' ? $email : 'neuveden')
+    . "\n\n"
     . "Poznámka:\n"
     . ($note !== '' ? $note : 'bez poznámky');
 
 
 // ====================================
-// HEADERS
+// FUNKCE PRO SMTP
 // ====================================
 
-$headers = [];
+function createMailer(
+    $smtpHost,
+    $smtpPort,
+    $smtpUsername,
+    $smtpPassword
+) {
 
-$headers[] =
-    'From: VinCaffe rezervace <info@vincaffe.cz>';
+    $mail =
+        new PHPMailer(true);
 
-$headers[] =
-    'Content-Type: text/plain; charset=UTF-8';
+    $mail->isSMTP();
 
-if ($email !== '') {
+    $mail->Host =
+        $smtpHost;
 
-    $headers[] =
-        'Reply-To: ' . $email;
+    $mail->SMTPAuth =
+        true;
+
+    $mail->Username =
+        $smtpUsername;
+
+    $mail->Password =
+        $smtpPassword;
+
+    $mail->SMTPSecure =
+        PHPMailer::ENCRYPTION_STARTTLS;
+
+    $mail->Port =
+        $smtpPort;
+
+    $mail->CharSet =
+        'UTF-8';
+
+    $mail->setFrom(
+        $smtpUsername,
+        'VinCaffé rezervace'
+    );
+
+    return $mail;
 }
 
 
 // ====================================
-// ODESLÁNÍ
+// EMAIL KAVÁRNĚ
 // ====================================
 
-$sent =
-    mail(
-        $recipientEmail,
-        $subject,
-        $message,
-        implode("\r\n", $headers)
+try {
+
+    $mail =
+        createMailer(
+            $smtpHost,
+            $smtpPort,
+            $smtpUsername,
+            $smtpPassword
+        );
+
+
+    $mail->addAddress(
+        $recipientEmail
     );
 
 
-if (!$sent) {
+    if ($email !== '') {
+
+        $mail->addReplyTo(
+            $email,
+            $name
+        );
+
+    }
+
+
+    $mail->Subject =
+        $subject;
+
+    $mail->Body =
+        $message;
+
+
+    $mail->send();
+
+
+} catch (Exception $e) {
 
     http_response_code(500);
 
     echo json_encode([
         'success' => false,
-        'message' => 'E-mail se nepodařilo odeslat.'
+        'message' => 'Rezervaci se nepodařilo odeslat.'
     ]);
 
     exit;
+}
+
+
+// ====================================
+// POTVRZENÍ ZÁKAZNÍKOVI
+// pouze pokud vyplnil e-mail
+// ====================================
+
+if ($email !== '') {
+
+    try {
+
+        $confirmationMail =
+            createMailer(
+                $smtpHost,
+                $smtpPort,
+                $smtpUsername,
+                $smtpPassword
+            );
+
+
+        $confirmationMail->addAddress(
+            $email,
+            $name
+        );
+
+
+        $confirmationMail->Subject =
+            'VinCaffé – přijali jsme váš požadavek na rezervaci';
+
+
+        $confirmationMail->Body =
+            "Dobrý den,\n\n"
+            . "děkujeme za váš požadavek na rezervaci ve VinCaffé.\n\n"
+            . "Datum: " . $date . "\n"
+            . "Čas: " . $time . "\n"
+            . "Počet hostů: " . $guests . "\n"
+            . "Jméno: " . $name . "\n\n"
+            . "Vaši rezervaci ještě zkontrolujeme v rezervační knize "
+            . "a následně se vám ozveme s potvrzením.\n\n"
+            . "Těšíme se na vás!\n"
+            . "VinCaffé";
+
+
+        $confirmationMail->send();
+
+
+    } catch (Exception $e) {
+
+        // Rezervace už do kavárny odešla.
+        // Pokud selže jen potvrzení zákazníkovi,
+        // rezervaci nepovažujeme za neúspěšnou.
+
+        error_log(
+            'Confirmation email failed: '
+            . $e->getMessage()
+        );
+
+    }
+
 }
 
 
