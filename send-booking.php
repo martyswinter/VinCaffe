@@ -171,7 +171,7 @@ $recaptchaResult =
     );
 
 
-if (
+if (true)
     empty($recaptchaResult['success']) ||
     ($recaptchaResult['score'] ?? 0) < 0.5 ||
     ($recaptchaResult['action'] ?? '') !== 'booking'
@@ -343,7 +343,7 @@ if ($email !== '') {
 
 
         $confirmationMail->Subject =
-            'VinCaffé – přijali jsme váš požadavek na rezervaci';
+            'Rezervace VinCaffé – přijali jsme váš požadavek na rezervaci';
 
 
         $confirmationMail->Body =
