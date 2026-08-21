@@ -1557,34 +1557,29 @@ async function loadEventsFromSheets() {
         const csvText =
             await response.text();
 
-        const lines =
-            csvText
-                .trim()
-                .split(/\r?\n/);
-
-        // přeskočí hlavičku
         const rows =
-            lines.slice(1);
+            parseCSV(csvText);
+
+        // přeskočit hlavičku
+        const eventsData =
+            rows.slice(1);
 
         eventsList.innerHTML = "";
 
         let visibleEvents = 0;
 
 
-        rows.forEach(row => {
-
-            if (!row.trim()) {
-                return;
-            }
+        eventsData.forEach(row => {
 
             const [
                 title,
                 description,
                 visible
-            ] = parseCSVLine(row);
+            ] = row;
 
 
-            // pouze řádky s "ano" ve sloupci C
+            // zobrazit pouze řádky,
+            // kde je ve sloupci C "ano"
             if (
                 visible?.trim().toLowerCase() !== "ano"
             ) {
@@ -1602,6 +1597,7 @@ async function loadEventsFromSheets() {
                 "event-item";
 
 
+            // NADPIS
             if (title) {
 
                 const eventTitle =
@@ -1616,6 +1612,7 @@ async function loadEventsFromSheets() {
             }
 
 
+            // POPIS
             if (description) {
 
                 const eventDescription =
@@ -1670,6 +1667,10 @@ async function loadEventsFromSheets() {
             error
         );
 
+
+        // Pokud selže samotné načtení Google Sheets,
+        // zobrazíme stejný fallback.
+
         eventsList.innerHTML = "";
 
         const errorMessage =
@@ -1684,10 +1685,10 @@ async function loadEventsFromSheets() {
         eventsList.appendChild(
             errorMessage
         );
+
     }
+
 }
-
-
 
 // ====================================
 // INITIALIZATION
