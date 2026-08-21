@@ -488,13 +488,20 @@ function scheduleMenuLoad() {
 
 function initMenuNavigation() {
 
-    const menuButton = document.querySelector(".nav-links .btn-tonal");
-    const contactButton = document.querySelector(".nav-links .btn-outlined");
+    const menuButton =
+        document.getElementById("menuButton");
 
-    const menuSection = document.getElementById("menu-carousel-section");
-    const contactSection = document.getElementById("contact");
+    const contactButton =
+        document.getElementById("contactButton");
 
-    const navbar = document.querySelector(".navbar");
+    const menuSection =
+        document.getElementById("menu-carousel-section");
+
+    const contactSection =
+        document.getElementById("contact");
+
+    const navbar =
+        document.querySelector(".navbar");
 
     if (!navbar) {
         console.error("Navbar nebyl nalezen.");
