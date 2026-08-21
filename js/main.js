@@ -143,14 +143,12 @@ async function loadMenuFromSheets() {
                 soupElement.textContent = polEvka;
             }
 
-
-            if (main1Element && jidlo1) {
-                main1Element.textContent = jidlo1;
+            if (main2Element && jidlo1) {
+                main2Element.textContent = jidlo1;
             }
 
-
-            if (main2Element && jidlo2) {
-                main2Element.textContent = jidlo2;
+            if (main1Element && jidlo2) {
+                main1Element.textContent = jidlo2;
             }
 
         });
