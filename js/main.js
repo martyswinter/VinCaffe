@@ -23,7 +23,7 @@ const EVENTS_CSV_URL =
     'https://docs.google.com/spreadsheets/d/1oC8J34A4j3nUnX7MUZXyRYEUhTZeS-H7vHcte0B_i_Y/export?format=csv&gid=796512486';
 
 
-    // ====================================
+// ====================================
 // TIMEZONE HELPER
 // ====================================
 
@@ -71,6 +71,129 @@ async function fetchWithRetry(url, retries = 3) {
             );
         }
     }
+}
+
+function initMenuCarouselControls() {
+
+    const wrapper =
+        document.querySelector(".menu-carousel-wrapper");
+
+    if (!wrapper) {
+        console.error("Nenalezen menu carousel wrapper");
+        return;
+    }
+
+    const carousel =
+        wrapper.querySelector(".menu-carousel");
+
+    const prevButton =
+        wrapper.querySelector(".carousel-prev");
+
+    const nextButton =
+        wrapper.querySelector(".carousel-next");
+
+    const dotsContainer =
+        document.querySelector(".carousel-dots");
+
+
+    if (!carousel || !prevButton || !nextButton) {
+        console.error(
+            "Carousel tlačítka nebo obsah nenalezen"
+        );
+        return;
+    }
+
+
+    // ====================================
+    // DISABLED STAV ŠIPEK
+    // ====================================
+
+    function updateCarouselButtons() {
+
+        const isAtStart =
+            carousel.scrollLeft <= 1;
+
+        const isAtEnd =
+            carousel.scrollLeft +
+            carousel.clientWidth >=
+            carousel.scrollWidth - 1;
+
+        prevButton.disabled = isAtStart;
+        nextButton.disabled = isAtEnd;
+    }
+
+
+    // první kontrola hned po inicializaci
+    updateCarouselButtons();
+
+
+    // ====================================
+    // NEXT
+    // ====================================
+
+    nextButton.addEventListener("click", () => {
+
+        carousel.scrollBy({
+            left: carousel.clientWidth,
+            behavior: "smooth"
+        });
+
+    });
+
+
+    // ====================================
+    // PREVIOUS
+    // ====================================
+
+    prevButton.addEventListener("click", () => {
+
+        carousel.scrollBy({
+            left: -carousel.clientWidth,
+            behavior: "smooth"
+        });
+
+    });
+
+
+    // ====================================
+    // SCROLL
+    // ====================================
+
+    carousel.addEventListener("scroll", () => {
+
+        updateCarouselButtons();
+
+        if (!dotsContainer) return;
+
+        const dots =
+            dotsContainer.querySelectorAll(
+                ".carousel-dot"
+            );
+
+        if (!dots.length) return;
+
+        const index =
+            Math.round(
+                carousel.scrollLeft /
+                carousel.clientWidth
+            );
+
+        dots.forEach((dot, dotIndex) => {
+
+            dot.classList.toggle(
+                "active",
+                dotIndex === index
+            );
+
+        });
+
+    });
+
+
+    console.log(
+        "Menu carousel ovládání aktivní"
+    );
+
 }
 
 
@@ -969,6 +1092,24 @@ function initMenuCarouselControls() {
 
     }
 
+    function updateCarouselButtons() {
+
+        const isAtStart =
+            carousel.scrollLeft <= 1;
+
+        const isAtEnd =
+            carousel.scrollLeft +
+            carousel.clientWidth >=
+            carousel.scrollWidth - 1;
+
+        prevButton.disabled = isAtStart;
+        nextButton.disabled = isAtEnd;
+    }
+
+
+    // první kontrola hned po inicializaci
+    updateCarouselButtons();
+
 
     // ====================================
     // NEXT
@@ -1197,6 +1338,7 @@ function initBookingModal() {
         if (bookingForm) {
             bookingForm.style.display = "";
             bookingForm.reset();
+            updateSubmitState();
 
             bookingForm
                 .querySelectorAll(".booking-field.has-error")
@@ -1233,6 +1375,12 @@ function initBookingModal() {
     const bookingName = document.getElementById("bookingName");
     const bookingEmail = document.getElementById("bookingEmail");
     const bookingPhone = document.getElementById("bookingPhone");
+    const bookingSubmit = document.getElementById("bookingSubmit");
+    const bookingDate = document.getElementById("bookingDate");
+    const bookingTime = document.getElementById("bookingTime");
+    const bookingGuests = document.getElementById("bookingGuests");
+
+    bookingSubmit.disabled = true;
 
     const bookingSuccess = document.getElementById("bookingSuccess");
 
@@ -1286,6 +1434,62 @@ function initBookingModal() {
     bookingName.addEventListener("blur", validateName);
     bookingEmail.addEventListener("blur", validateEmail);
     bookingPhone.addEventListener("blur", validatePhone);
+
+    // AKTIVACE / DEAKTIVACE TLAČÍTKA ODESLAT
+    function updateSubmitState() {
+
+        const dateValid =
+            bookingDate.validity.valid;
+
+        const timeValid =
+            bookingTime.validity.valid;
+
+        const guestsValid =
+            bookingGuests.validity.valid;
+
+        const nameValid =
+            bookingName.validity.valid;
+
+        const phoneValid =
+            bookingPhone.validity.valid;
+
+        const emailValid =
+            bookingEmail.value.trim() === "" ||
+            bookingEmail.validity.valid;
+
+        bookingSubmit.disabled =
+            !(
+                dateValid &&
+                timeValid &&
+                guestsValid &&
+                nameValid &&
+                phoneValid &&
+                emailValid
+            );
+    }
+
+
+    // kontrola při každé změně ve formuláři
+    [
+        bookingDate,
+        bookingTime,
+        bookingGuests,
+        bookingName,
+        bookingEmail,
+        bookingPhone
+    ].forEach(field => {
+
+        field.addEventListener(
+            "input",
+            updateSubmitState
+        );
+
+    });
+
+
+    // kontrola hned při načtení
+    updateSubmitState();
+
 
 
     // VALIDACE PŘI ODESLÁNÍ + SUCCESS STATE

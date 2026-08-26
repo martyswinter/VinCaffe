@@ -8,7 +8,7 @@
             "type": "editor-browser",
             "request": "launch",
             "name": "Open index.html",
-            "url": "file:///c%3A/Users/marty/Documents/VinCaffe/index.html"
+            "url": "file:///c%3A/Users/marty/Documents/VinCaffé/index.html"
         }
     ]
 }

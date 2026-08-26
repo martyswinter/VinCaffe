@@ -239,6 +239,18 @@ body {
     transition: box-shadow 0.2s ease;
 }
 
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.btn:disabled:hover,
+.btn:disabled:active,
+.btn:disabled:focus-visible {
+    box-shadow: none;
+}
+
 /* BUTTON LABEL */
 .button-label {
     font-family: "Josefin Sans", sans-serif;
@@ -383,14 +395,6 @@ body {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
 }
 
-.btn-outlined:disabled {
-    background: transparent;
-    color: rgba(28, 27, 31, 0.38);
-    border-color: rgba(28, 27, 31, 0.12);
-    cursor: not-allowed;
-    box-shadow: none;
-}
-
 /* ====================================
    TEXT BUTTON
    ==================================== */
@@ -429,11 +433,6 @@ body {
         transparent;
 }
 
-.btn-text:disabled {
-    background: transparent;
-    color: rgba(28, 27, 31, 0.38);
-    cursor: not-allowed;
-}
 
 /* BURGER MENU (Mobile) */
 .burger-menu {
