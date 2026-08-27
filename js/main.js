@@ -229,19 +229,25 @@ async function loadMenuFromSheets() {
                 den,
                 datum,
                 polEvka,
-                jidlo1,
-                jidlo2
+                polEvkaCena,
+                jidloMaso,
+                jidloMasoCena,
+                jidloVege,
+                jidloVegeCena
             ] = row;
 
 
             if (!daysMap[den]) return;
 
 
-            const dayCode = daysMap[den];
+            const dayCode =
+                daysMap[den];
 
 
             const dayHeader =
-                document.getElementById(`day-${dayCode}`);
+                document.getElementById(
+                    `day-${dayCode}`
+                );
 
 
             if (dayHeader && datum) {
@@ -253,31 +259,66 @@ async function loadMenuFromSheets() {
 
 
             const soupElement =
-                document.getElementById(`${dayCode}-soup`);
+                document.getElementById(
+                    `${dayCode}-soup`
+                );
 
-            const main1Element =
-                document.getElementById(`${dayCode}-main1`);
+            const soupPriceElement =
+                document.getElementById(
+                    `${dayCode}-soup-price`
+                );
 
-            const main2Element =
-                document.getElementById(`${dayCode}-main2`);
+            const meatElement =
+                document.getElementById(
+                    `${dayCode}-main2`
+                );
+
+            const meatPriceElement =
+                document.getElementById(
+                    `${dayCode}-main2-price`
+                );
+
+            const vegeElement =
+                document.getElementById(
+                    `${dayCode}-main1`
+                );
+
+            const vegePriceElement =
+                document.getElementById(
+                    `${dayCode}-main1-price`
+                );
 
 
             if (soupElement && polEvka) {
                 soupElement.textContent = polEvka;
             }
 
-            if (main2Element && jidlo1) {
-                main2Element.textContent = jidlo1;
+            if (soupPriceElement && polEvkaCena) {
+                soupPriceElement.textContent = polEvkaCena;
             }
 
-            if (main1Element && jidlo2) {
-                main1Element.textContent = jidlo2;
+            if (meatElement && jidloMaso) {
+                meatElement.textContent = jidloMaso;
+            }
+
+            if (meatPriceElement && jidloMasoCena) {
+                meatPriceElement.textContent = jidloMasoCena;
+            }
+
+            if (vegeElement && jidloVege) {
+                vegeElement.textContent = jidloVege;
+            }
+
+            if (vegePriceElement && jidloVegeCena) {
+                vegePriceElement.textContent = jidloVegeCena;
             }
 
         });
 
 
-        console.log("Menu načteno z Google Sheets");
+        console.log(
+            "Menu načteno z Google Sheets"
+        );
 
 
     } catch (error) {
