@@ -105,7 +105,54 @@ function initMenuCarouselControls() {
 
 
     // ====================================
-    // DISABLED STAV ŠIPEK
+    // VYTVOŘENÍ TEČEK
+    // ====================================
+
+    const slides =
+        carousel.querySelectorAll(".menu-slide");
+
+    if (dotsContainer) {
+
+        dotsContainer.innerHTML = "";
+
+        slides.forEach((slide, index) => {
+
+            const dot =
+                document.createElement("button");
+
+            dot.className =
+                "carousel-dot";
+
+            dot.type =
+                "button";
+
+            dot.setAttribute(
+                "aria-label",
+                `Zobrazit menu ${index + 1}`
+            );
+
+            if (index === 0) {
+                dot.classList.add("active");
+            }
+
+            dot.addEventListener("click", () => {
+
+                carousel.scrollTo({
+                    left: index * carousel.clientWidth,
+                    behavior: "smooth"
+                });
+
+            });
+
+            dotsContainer.appendChild(dot);
+
+        });
+
+    }
+
+
+    // ====================================
+    // AKTIVNÍ / DISABLED ŠIPKY
     // ====================================
 
     function updateCarouselButtons() {
@@ -118,12 +165,15 @@ function initMenuCarouselControls() {
             carousel.clientWidth >=
             carousel.scrollWidth - 1;
 
-        prevButton.disabled = isAtStart;
-        nextButton.disabled = isAtEnd;
+        prevButton.disabled =
+            isAtStart;
+
+        nextButton.disabled =
+            isAtEnd;
     }
 
 
-    // první kontrola hned po inicializaci
+    // kontrola při načtení
     updateCarouselButtons();
 
 
@@ -161,8 +211,11 @@ function initMenuCarouselControls() {
 
     carousel.addEventListener("scroll", () => {
 
+        // při každém posunu znovu přepočítat šipky
         updateCarouselButtons();
 
+
+        // aktivní tečka
         if (!dotsContainer) return;
 
         const dots =
@@ -172,11 +225,13 @@ function initMenuCarouselControls() {
 
         if (!dots.length) return;
 
+
         const index =
             Math.round(
                 carousel.scrollLeft /
                 carousel.clientWidth
             );
+
 
         dots.forEach((dot, dotIndex) => {
 
@@ -1065,167 +1120,6 @@ if (menuRetry) {
 }
 
 
-// ====================================
-// MENU CAROUSEL CONTROLS
-// ====================================
-
-function initMenuCarouselControls() {
-
-    const wrapper =
-        document.querySelector(".menu-carousel-wrapper");
-
-    if (!wrapper) {
-        console.error("Nenalezen menu carousel wrapper");
-        return;
-    }
-
-    const carousel =
-        wrapper.querySelector(".menu-carousel");
-
-    const prevButton =
-        wrapper.querySelector(".carousel-prev");
-
-    const nextButton =
-        wrapper.querySelector(".carousel-next");
-
-    const dotsContainer =
-        document.querySelector(".carousel-dots");
-
-
-    if (!carousel || !prevButton || !nextButton) {
-        console.error(
-            "Carousel tlačítka nebo obsah nenalezen"
-        );
-        return;
-    }
-
-
-    // ====================================
-    // VYTVOŘENÍ TEČEK
-    // ====================================
-
-    const slides =
-        carousel.querySelectorAll(".menu-slide");
-
-    if (dotsContainer) {
-
-        dotsContainer.innerHTML = "";
-
-        slides.forEach((slide, index) => {
-
-            const dot =
-                document.createElement("button");
-
-            dot.className = "carousel-dot";
-
-            dot.type = "button";
-
-            dot.setAttribute(
-                "aria-label",
-                `Zobrazit menu ${index + 1}`
-            );
-
-            if (index === 0) {
-                dot.classList.add("active");
-            }
-
-            dot.addEventListener("click", () => {
-
-                carousel.scrollTo({
-                    left: index * carousel.clientWidth,
-                    behavior: "smooth"
-                });
-
-            });
-
-            dotsContainer.appendChild(dot);
-
-        });
-
-    }
-
-    function updateCarouselButtons() {
-
-        const isAtStart =
-            carousel.scrollLeft <= 1;
-
-        const isAtEnd =
-            carousel.scrollLeft +
-            carousel.clientWidth >=
-            carousel.scrollWidth - 1;
-
-        prevButton.disabled = isAtStart;
-        nextButton.disabled = isAtEnd;
-    }
-
-
-    // první kontrola hned po inicializaci
-    updateCarouselButtons();
-
-
-    // ====================================
-    // NEXT
-    // ====================================
-
-    nextButton.addEventListener("click", () => {
-
-        carousel.scrollBy({
-            left: carousel.clientWidth,
-            behavior: "smooth"
-        });
-
-    });
-
-
-    // ====================================
-    // PREVIOUS
-    // ====================================
-
-    prevButton.addEventListener("click", () => {
-
-        carousel.scrollBy({
-            left: -carousel.clientWidth,
-            behavior: "smooth"
-        });
-
-    });
-
-
-    // ====================================
-    // AKTIVNÍ TEČKA PŘI SCROLLU
-    // ====================================
-
-    carousel.addEventListener("scroll", () => {
-
-        if (!dotsContainer) return;
-
-        const dots =
-            dotsContainer.querySelectorAll(".carousel-dot");
-
-        if (!dots.length) return;
-
-        const index =
-            Math.round(
-                carousel.scrollLeft / carousel.clientWidth
-            );
-
-        dots.forEach((dot, dotIndex) => {
-
-            dot.classList.toggle(
-                "active",
-                dotIndex === index
-            );
-
-        });
-
-    });
-
-
-    console.log(
-        "Menu carousel ovládání aktivní"
-    );
-
-}
 
 // ====================================
 // BURGER MENU
