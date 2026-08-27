@@ -223,7 +223,7 @@ body {
 }
 
 /* ====================================
-   TLAČÍTKA (M3 Design System)
+   BUTTONS (M3 Design System)
    ==================================== */
 
 /* BASE BUTTON */
@@ -464,6 +464,37 @@ body {
 @media (max-width: 767px) {
     .burger-menu {
         display: flex;
+    }
+}
+
+/* ====================================
+   BOOKING SUBMIT LOADER
+   ==================================== */
+
+#bookingSubmit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.booking-submit-loader {
+    display: none;
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: booking-spin 0.8s linear infinite;
+}
+
+#bookingSubmit.is-loading .booking-submit-loader {
+    display: inline-block;
+}
+
+@keyframes booking-spin {
+    to {
+        transform: rotate(360deg);
     }
 }
 

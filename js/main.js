@@ -1571,6 +1571,16 @@ function initBookingModal() {
             }
         }
 
+        const submitLabel =
+            bookingSubmit.querySelector(".booking-submit-label");
+
+        bookingSubmit.disabled = true;
+        bookingSubmit.classList.add("is-loading");
+
+        if (submitLabel) {
+            submitLabel.textContent = "Odesílám…";
+        }
+
         // ====================================
         // FORMULÁŘ JE VALIDNÍ
         // RECAPTCHA + ODESLÁNÍ NA SERVER
@@ -1630,6 +1640,14 @@ function initBookingModal() {
                 "Chyba při odesílání rezervace:",
                 error
             );
+
+            bookingSubmit.classList.remove("is-loading");
+
+            if (submitLabel) {
+                submitLabel.textContent = "Odeslat rezervaci";
+            }
+
+            updateSubmitState();
 
             alert(
                 "Rezervaci se nepodařilo odeslat. Zkuste to prosím znovu."
