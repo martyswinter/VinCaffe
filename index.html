@@ -3,11 +3,57 @@
 
 <head>
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VinCaffé - Kavárna</title>
+
+    <title>
+        VinCaffé Praha 3 – kavárna, víno, brunch a rezervace
+    </title>
+
+    <meta name="description"
+        content="VinCaffé na Praze 3 nabízí výběrovou kávu, víno, týdenní menu, víkendový brunch a příjemné posezení se zahrádkou. Rezervujte si stůl online.">
+
+    <link rel="canonical" href="https://vincaffe.cz/">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="VinCaffé Praha 3">
+    <meta property="og:description"
+        content="Výběrová káva, víno, týdenní menu, víkendový brunch a příjemné posezení se zahrádkou.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://vincaffe.cz/">
+    <meta property="og:image" content="https://vincaffe.cz/assets/images/hero-image.png">
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="VinCaffé Praha 3">
+    <meta name="twitter:description"
+        content="Výběrová káva, víno, týdenní menu, víkendový brunch a příjemné posezení se zahrádkou.">
+    <meta name="twitter:image" content="https://vincaffe.cz/assets/images/hero-image.png">
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" type="image/svg+xml" href="assets/icons/fav-icon.svg">
     <link rel="alternate icon" href="assets/icons/favicon.ico">
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "CafeOrCoffeeShop",
+        "name": "VinCaffé",
+        "url": "https://vincaffe.cz/",
+        "telephone": "+420775760951",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Blahníkova 3",
+            "addressLocality": "Praha",
+            "postalCode": "130 00",
+            "addressCountry": "CZ"
+        },
+        "openingHours": [
+            "Mo-Sa 09:00-23:00",
+            "Su 09:00-16:00"
+        ]
+    }
+    </script>
+
 </head>
 
 <script src="https://www.google.com/recaptcha/api.js?render=6LfGVo4tAAAAAI7NFKP_dm9ECaaM0hG5uUfDMp_7">
@@ -18,7 +64,7 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
-                <img src="assets/images/logo_VinCaffe.png" alt="VinCaffé Logo">
+                <img src="assets/images/logo_vincaffe.png" alt="VinCaffé Logo">
             </div>
             <ul class="nav-links">
                 <li><button class="btn btn-text" id="menuButton">Menu</button></li>
