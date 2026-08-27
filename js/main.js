@@ -347,39 +347,50 @@ async function loadBrunchFromSheets() {
         const csvText =
             await response.text();
 
-
-        // ====================================
-        // CSV PARSING
-        // zvládne čárky i zalomení řádků
-        // ====================================
-
         const rows =
             parseCSV(csvText);
 
-
-        // přeskočíme první řádek s názvem
-        // Sobota & Neděle
         const brunchItems =
             rows.slice(1, 4);
 
-
         brunchItems.forEach((row, index) => {
 
-            const text =
+            const name =
                 row[1]?.trim() || "";
 
+            const description =
+                row[2]?.trim() || "";
 
-            const element =
+            const price =
+                row[3]?.trim() || "";
+
+
+            const nameElement =
                 document.getElementById(
                     `brunch-main${index + 1}`
                 );
 
+            const descriptionElement =
+                document.getElementById(
+                    `brunch-main${index + 1}-description`
+                );
 
-            if (element) {
+            const priceElement =
+                document.getElementById(
+                    `brunch-main${index + 1}-price`
+                );
 
-                element.textContent =
-                    text;
 
+            if (nameElement) {
+                nameElement.textContent = name;
+            }
+
+            if (descriptionElement) {
+                descriptionElement.textContent = description;
+            }
+
+            if (priceElement) {
+                priceElement.textContent = price;
             }
 
         });

@@ -768,7 +768,7 @@ p {
 }
 
 .menu-item-price {
-    font-weight: 300;
+    font-weight: 400;
 }
 
 .hidden-menu {
@@ -801,6 +801,14 @@ p {
     flex-direction: column;
     gap: 1rem;
     text-align: center;
+}
+
+.brunch-item-name {
+    font-weight: 700;
+}
+
+.brunch-item-description {
+    font-weight: 400;
 }
 
 /* ====================================
