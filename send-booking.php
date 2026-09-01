@@ -342,21 +342,178 @@ if ($email !== '') {
         );
 
 
+        $confirmationMail->isHTML(true);
+
+
         $confirmationMail->Subject =
             'Rezervace VinCaffé – přijali jsme váš požadavek na rezervaci';
 
 
-        $confirmationMail->Body =
-            "Dobrý den,\n\n"
+        $safeName =
+            htmlspecialchars(
+                $name,
+                ENT_QUOTES,
+                'UTF-8'
+            );
+
+        $safeDate =
+            htmlspecialchars(
+                $date,
+                ENT_QUOTES,
+                'UTF-8'
+            );
+
+        $safeTime =
+            htmlspecialchars(
+                $time,
+                ENT_QUOTES,
+                'UTF-8'
+            );
+
+        $safeGuests =
+            htmlspecialchars(
+                $guests,
+                ENT_QUOTES,
+                'UTF-8'
+            );
+
+
+        $confirmationMail->Body = '
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body style="
+    margin: 0;
+    padding: 0;
+    background-color: #ccd3ce;
+    font-family: Arial, sans-serif;
+    color: #272727;
+">
+
+    <div style="
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 24px;
+    ">
+
+        <div style="
+            background-color: #f0f3ef;
+            border-radius: 16px;
+            overflow: hidden;
+        ">
+
+            <div style="
+                padding: 32px;
+                text-align: center;
+                background-color: #cfe2ca;
+            ">
+
+                <h1 style="
+                    margin: 0;
+                    font-size: 28px;
+                    color: #846B11;
+                ">
+                    VinCaffé rezervace
+                </h1>
+
+            </div>
+
+            <div style="
+                padding: 32px;
+            ">
+
+                <h2 style="
+                    margin-top: 0;
+                    color: #846B11;
+                    font-size: 22px;
+                ">
+                    Požadavek na rezervaci jsme přijali
+                </h2>
+
+                <p style="
+                    margin: 0 0 20px;
+                    line-height: 1.6;
+                ">
+                    Dobrý den ' . $safeName . ',
+                </p>
+
+                <p style="
+                    margin: 0 0 24px;
+                    line-height: 1.6;
+                ">
+                    děkujeme za váš požadavek na rezervaci ve VinCaffé.
+                    Teď se podíváme do rezervační knihy a následně se vám
+                    ozveme s potvrzením.
+                </p>
+
+                <div style="
+                    margin: 24px 0;
+                    padding: 20px;
+                    background-color: #cfe2ca;
+                    border-radius: 12px;
+                    line-height: 1.8;
+                ">
+
+                    <strong>Datum:</strong> ' . $safeDate . '<br>
+                    <strong>Čas:</strong> ' . $safeTime . '<br>
+                    <strong>Počet hostů:</strong> ' . $safeGuests . '<br>
+                    <strong>Jméno:</strong> ' . $safeName . '
+
+                </div>
+
+                <p style="
+                    margin: 8px 0 0;
+                    font-weight: bold;
+                ">
+                    Váš tým VinCaffé
+                </p>
+
+                <p style="
+                    margin: 24px 0 0;
+                    font-size: 13px;
+                    line-height: 1.5;
+                    color: #6B7280;
+                ">
+                    Tento e-mail potvrzuje pouze přijetí požadavku.
+                    Rezervace je platná až po našem potvrzení.
+                    <br><br>
+                    Kdybychom se vám neozvali do 24 hodin, kontaktujte nás prosím
+                    na telefonním čísle +420 775 760 951.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>';
+
+
+        // Textová záloha pro klienty,
+        // které HTML e-maily nezobrazují
+
+        $confirmationMail->AltBody =
+            "Dobrý den " . $name . ",\n\n"
             . "děkujeme za váš požadavek na rezervaci ve VinCaffé.\n\n"
             . "Datum: " . $date . "\n"
             . "Čas: " . $time . "\n"
             . "Počet hostů: " . $guests . "\n"
             . "Jméno: " . $name . "\n\n"
-            . "Vaši rezervaci ještě zkontrolujeme v rezervační knize "
-            . "a následně se vám ozveme s potvrzením.\n\n"
-            . "Těšíme se na vás!\n"
-            . "VinCaffé";
+            . "Teď se podíváme do rezervační knihy a následně se vám "
+            . "ozveme s potvrzením.\n\n"
+            . "Tento e-mail potvrzuje pouze přijetí požadavku. "
+            . "Rezervace je platná až po našem potvrzení.\n\n"
+            . "Kdybychom se vám neozvali do 24 hodin, kontaktujte nás prosím "
+            . "na telefonním čísle +420 775 760 951.\n\n"
+            . "Váš tým VinCaffé";
 
 
         $confirmationMail->send();
