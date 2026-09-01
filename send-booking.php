@@ -346,7 +346,7 @@ if ($email !== '') {
 
 
         $confirmationMail->Subject =
-            'Rezervace VinCaffé – přijali jsme váš požadavek na rezervaci';
+            'Přijali jsme váš požadavek na rezervaci';
 
 
         $safeName =
