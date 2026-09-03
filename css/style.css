@@ -103,6 +103,10 @@ body {
    NAVBAR (STICKY)
    ==================================== */
 
+   #translateNavItem[hidden] {
+    display: none !important;
+}
+
 .navbar {
     position: sticky;
     top: 0;
