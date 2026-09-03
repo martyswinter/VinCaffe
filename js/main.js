@@ -1858,6 +1858,22 @@ async function loadEventsFromSheets() {
 
 }
 
+function initTranslateButton() {
+
+    const translateNavItem =
+        document.getElementById("translateNavItem");
+
+    const browserLanguage =
+        navigator.language || "";
+
+    const isCzech =
+        browserLanguage.toLowerCase().startsWith("cs");
+
+    if (translateNavItem && !isCzech) {
+        translateNavItem.hidden = false;
+    }
+}
+
 // ====================================
 // INITIALIZATION
 // ====================================
@@ -1871,6 +1887,7 @@ document.addEventListener(
         // ====================================
 
         initBurgerMenu();
+        initTranslateButton();
         initMenuNavigation();
         initBookingModal();
         initMenuCarouselControls();
