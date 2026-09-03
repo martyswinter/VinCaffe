@@ -1863,17 +1863,18 @@ function initTranslateButton() {
     const translateNavItem =
         document.getElementById("translateNavItem");
 
-    const browserLanguage =
-        navigator.language || "";
+    const browserLanguages =
+        navigator.languages || [navigator.language];
 
-    const isCzech =
-        browserLanguage.toLowerCase().startsWith("cs");
+    const hasCzech =
+        browserLanguages.some(language =>
+            language.toLowerCase().startsWith("cs")
+        );
 
-    if (translateNavItem && !isCzech) {
+    if (translateNavItem && !hasCzech) {
         translateNavItem.hidden = false;
     }
 }
-
 // ====================================
 // INITIALIZATION
 // ====================================
