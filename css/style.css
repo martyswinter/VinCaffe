@@ -760,7 +760,7 @@ p {
 }
 
 .menu-day {
-    padding: 1rem 1.5rem 2rem 1.5rem;
+    padding: 1rem 1.5rem;
     border-right: 1px solid var(--Border-color);
     text-align: left;
 }
