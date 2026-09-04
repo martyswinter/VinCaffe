@@ -830,6 +830,10 @@ p {
     margin-bottom: 1rem;
 }
 
+.menu-items-weekend .menu-item-content {
+    width: 100%;
+}
+
 .menu-items-weekend {
     display: flex;
     flex-direction: column;
