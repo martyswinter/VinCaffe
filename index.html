@@ -3,8 +3,7 @@
 
 <head>
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZPP627103X"></script>
-    
+    <!-- Google Consent Mode -->
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -12,9 +11,19 @@
             dataLayer.push(arguments);
         }
 
-        gtag('js', new Date());
+        gtag('consent', 'default', {
+            analytics_storage: 'denied',
+            ad_storage: 'denied',
+            ad_user_data: 'denied',
+            ad_personalization: 'denied'
+        });
 
+        gtag('js', new Date());
         gtag('config', 'G-ZPP627103X');
+    </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZPP627103X">
     </script>
 
     <meta charset="UTF-8">
@@ -38,16 +47,11 @@
     <meta property="og:url" content="https://vincaffe.cz/">
     <meta property="og:image" content="https://vincaffe.cz/assets/images/hero-image.png">
 
-    <!-- Twitter / X -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="VinCaffé Praha 3">
-    <meta name="twitter:description"
-        content="Výběrová káva, víno, týdenní menu, víkendový brunch a příjemné posezení se zahrádkou.">
-    <meta name="twitter:image" content="https://vincaffe.cz/assets/images/hero-image.png">
     <link rel="stylesheet" href="css/style.css">
+    
     <link rel="icon" type="image/svg+xml" href="assets/icons/fav-icon.svg">
     <link rel="alternate icon" href="assets/icons/favicon.ico">
-
+    
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -68,7 +72,6 @@
         ]
     }
     </script>
-
 
 </head>
 
@@ -852,6 +855,28 @@
     
     <script src="js/main.js"></script>
 
+    <div class="cookie-banner" id="cookieBanner" hidden>
+        <div class="cookie-banner-content">
+    
+            <p>
+                Používáme analytické cookies, které nám pomáhají zjistit,
+                jak vylepšit náš web.
+            </p>
+    
+            <div class="cookie-banner-actions">
+    
+                <button class="btn btn-text" id="cookieReject" type="button">
+                    Odmítnout
+                </button>
+    
+                <button class="btn btn-filled" id="cookieAccept" type="button">
+                    Přijmout
+                </button>
+    
+            </div>
+    
+        </div>
+    </div>
 
 </body>
 

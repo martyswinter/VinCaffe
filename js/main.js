@@ -1875,6 +1875,86 @@ function initTranslateButton() {
         translateNavItem.hidden = false;
     }
 }
+
+function initCookieConsent() {
+
+    const banner =
+        document.getElementById("cookieBanner");
+
+    const acceptButton =
+        document.getElementById("cookieAccept");
+
+    const rejectButton =
+        document.getElementById("cookieReject");
+
+    if (!banner || !acceptButton || !rejectButton) {
+        return;
+    }
+
+    const savedConsent =
+        localStorage.getItem("analyticsConsent");
+
+
+    // žádná volba zatím nebyla
+    if (!savedConsent) {
+        banner.hidden = false;
+    }
+
+
+    // už dříve povoleno
+    if (savedConsent === "granted") {
+
+        gtag('consent', 'update', {
+            analytics_storage: 'granted',
+            ad_storage: 'denied',
+            ad_user_data: 'denied',
+            ad_personalization: 'denied'
+        });
+
+    }
+
+
+    // PŘIJMOUT
+    acceptButton.addEventListener("click", () => {
+
+        localStorage.setItem(
+            "analyticsConsent",
+            "granted"
+        );
+
+        gtag('consent', 'update', {
+            analytics_storage: 'granted',
+            ad_storage: 'denied',
+            ad_user_data: 'denied',
+            ad_personalization: 'denied'
+        });
+
+        banner.hidden = true;
+
+    });
+
+
+    // ODMÍTNOUT
+    rejectButton.addEventListener("click", () => {
+
+        localStorage.setItem(
+            "analyticsConsent",
+            "denied"
+        );
+
+        gtag('consent', 'update', {
+            analytics_storage: 'denied',
+            ad_storage: 'denied',
+            ad_user_data: 'denied',
+            ad_personalization: 'denied'
+        });
+
+        banner.hidden = true;
+
+    });
+
+}
+
 // ====================================
 // INITIALIZATION
 // ====================================
@@ -1892,6 +1972,7 @@ document.addEventListener(
         initMenuNavigation();
         initBookingModal();
         initMenuCarouselControls();
+        initCookieConsent();
 
 
         // ====================================
