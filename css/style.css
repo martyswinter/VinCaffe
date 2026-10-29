@@ -2497,3 +2497,125 @@ MENU CAROUSEL
     }
 
 }
+
+/* ====================================
+   UZAVŘENÁ SPOLEČNOST MODAL
+   ==================================== */
+
+.closed-company-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 3000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity .25s ease, visibility .25s ease;
+}
+
+.closed-company-modal.open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.closed-company-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, .60);
+}
+
+.closed-company-modal-dialog {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 50rem;
+    max-height: calc(100vh - 2rem);
+    background: var(--Background-color);
+    /* Světlé pozadí jako systém */
+    border-radius: 1.25rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .18);
+    overflow: hidden;
+}
+
+.closed-company-modal-header {
+    position: relative;
+    padding: 1.5rem 2rem 1.25rem;
+    background-image: url("../assets/images/modal-header-background.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.closed-company-modal-header h3 {
+    margin: 0;
+    text-align: center;
+}
+
+.closed-company-modal-content {
+    padding: 2rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.closed-company-date-time {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.125rem;
+    line-height: 1.5;
+    color: var(--Body-text-color);
+}
+
+.closed-company-separator {
+    color: var(--Body-text-color);
+}
+
+.closed-company-modal-content p {
+    margin: 0;
+    font-size: 1.125rem;
+    line-height: 1.5;
+    color: var(--Body-text-color);
+}
+
+#closedCompanyModalClose {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    font-size: 1.5rem;
+    line-height: 1;
+    z-index: 2;
+}
+
+.closed-company-understand {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+    .closed-company-modal-dialog {
+        width: calc(100vw - 2rem);
+        max-width: none;
+        max-height: calc(100vh - 2rem);
+        border-radius: 1rem;
+    }
+
+    .closed-company-modal-content {
+        padding: 1.5rem 1rem;
+    }
+
+    .closed-company-date-time {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}

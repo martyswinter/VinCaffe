@@ -14,6 +14,12 @@ const BRUNCH_CSV_URL =
 const MENU_CAROUSEL_CSV =
     'https://docs.google.com/spreadsheets/d/e/2PACX-1vTkGElCHPPqJQFdspzR4c6oNZUYUxIQtgMdRucloCUfnqZ8wFI2Xk4MAWq4gPcotrlB9WczAl9wM1rf/pub?gid=1118662332&single=true&output=csv';
 
+// ====================================
+// UZAVŘENÁ SPOLEČNOST GOOGLE SHEETS
+// ====================================
+
+const CLOSED_COMPANY_CSV_URL =
+    'https://docs.google.com/spreadsheets/d/1oC8J34A4j3nUnX7MUZXyRYEUhTZeS-H7vHcte0B_i_Y/export?format=csv&gid=1117429160';
 
 // ====================================
 // EVENTS GOOGLE SHEETS
@@ -1956,6 +1962,86 @@ function initCookieConsent() {
 }
 
 // ====================================
+// LOAD UZAVŘENÁ SPOLEČNOST FROM GOOGLE SHEETS
+// ====================================
+
+async function loadClosedCompanyFromSheets() {
+    try {
+        const response = await fetchWithRetry(CLOSED_COMPANY_CSV_URL);
+        const csvText = await response.text();
+        const rows = parseCSV(csvText);
+        const companyData = rows.slice(1); // Přeskočit hlavičku
+
+        let activeCompany = null;
+
+        companyData.forEach(row => {
+            const [date, time, description, enabled] = row;
+            if (enabled?.trim().toLowerCase() === "ano") {
+                activeCompany = { date, time, description };
+            }
+        });
+
+        if (activeCompany) {
+            showClosedCompanyModal(activeCompany);
+        } else {
+            hideClosedCompanyModal();
+        }
+
+        console.log("Closed company data loaded");
+
+    } catch (error) {
+        console.error("Chyba při načítání uzavřené společnosti:", error);
+        hideClosedCompanyModal();
+    }
+}
+
+// Zobrazí modal s daty
+function showClosedCompanyModal(company) {
+    const modal = document.getElementById("closedCompanyModal");
+    const dateEl = document.getElementById("closedCompanyDate");
+    const timeEl = document.getElementById("closedCompanyTime");
+    const descEl = document.getElementById("closedCompanyDescription");
+
+    if (!modal || !dateEl || !timeEl || !descEl) return;
+
+    dateEl.textContent = company.date || "";
+    timeEl.textContent = company.time || "";
+    descEl.textContent = company.description || "";
+
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden"; // Zablokovat scroll
+}
+
+// Skryje modal
+function hideClosedCompanyModal() {
+    const modal = document.getElementById("closedCompanyModal");
+    if (!modal) return;
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = ""; // Odblokovat scroll
+}
+
+function initClosedCompanyModal() {
+    const modal = document.getElementById("closedCompanyModal");
+    const closeBtn = document.getElementById("closedCompanyModalClose");
+    const understandBtn = document.getElementById("closedCompanyUnderstand");
+    const backdrop = modal?.querySelector(".closed-company-modal-backdrop");
+
+    if (!modal || !closeBtn) return;
+
+    closeBtn.addEventListener("click", hideClosedCompanyModal);
+    if (understandBtn) understandBtn.addEventListener("click", hideClosedCompanyModal);
+    if (backdrop) backdrop.addEventListener("click", hideClosedCompanyModal);
+
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && modal.classList.contains("open")) {
+            hideClosedCompanyModal();
+        }
+    });
+}
+
+// ====================================
 // INITIALIZATION
 // ====================================
 
@@ -1971,6 +2057,7 @@ document.addEventListener(
         initTranslateButton();
         initMenuNavigation();
         initBookingModal();
+        initClosedCompanyModal();
         initMenuCarouselControls();
         initCookieConsent();
 
@@ -2004,9 +2091,10 @@ document.addEventListener(
 
 
         // akce z Google Sheets
-
         await loadEventsFromSheets();
 
+        // uzavřená společnost z Google Sheets
+        await loadClosedCompanyFromSheets();
 
         // ====================================
         // AUTOMATICKÉ AKTUALIZACE
@@ -2014,6 +2102,9 @@ document.addEventListener(
 
         scheduleMenuLoad();
         scheduleMenuSwitch();
+
+        // Aktualizovat uzavřenou společnost každých 5 minut
+        setInterval(loadClosedCompanyFromSheets, 5 * 60 * 1000);
 
     }
 );

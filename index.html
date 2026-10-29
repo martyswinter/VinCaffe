@@ -851,7 +851,29 @@
         </div>
     
     </div>
-    
+
+    <!-- UPOZORNĚNÍ MODAL -->
+    <div class="closed-company-modal" id="closedCompanyModal" aria-hidden="true">
+        <div class="closed-company-modal-backdrop"></div>
+        <div class="closed-company-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="closedCompanyModalTitle">
+            <div class="closed-company-modal-header">
+                <h3 id="closedCompanyModalTitle">Upozornění</h3>
+                <button class="btn btn-text modal-close" id="closedCompanyModalClose" type="button" aria-label="Zavřít">
+                    ×
+                </button>
+            </div>
+            <div class="closed-company-modal-content">
+                <div class="closed-company-date-time">
+                    <h4 id="closedCompanyDate"></h4>
+                    <h4 id="closedCompanyTime"></h4>
+                </div>
+                <p id="closedCompanyDescription"></p>
+                <button class="btn btn-text closed-company-understand" id="closedCompanyUnderstand" type="button">
+                    Rozumím
+                </button>
+            </div>
+        </div>
+    </div>
     
     <script src="js/main.js"></script>
 
